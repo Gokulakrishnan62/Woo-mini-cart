@@ -1,0 +1,9 @@
+{
+  "name": "flycartinc/mini-cart-woocommerce",
+  "description": "Mini Cart for woocommerce Wordpress plugin",
+  "autoload": {
+    "psr-4": {
+      "MCW\\": ""
+    }
+  }
+}
