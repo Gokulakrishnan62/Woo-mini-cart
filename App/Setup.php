@@ -2,7 +2,6 @@
 
 namespace MCW\App;
 
-use MCW\App\Helpers\Page;
 use MCW\App\Helpers\Plugin;
 
 defined('ABSPATH') || exit;

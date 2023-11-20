@@ -3,8 +3,6 @@
 namespace MCW\App;
 
 use MCW\App\Helpers\Plugin;
-use MCW\App\Route;
-use MCW\App\Setup;
 
 defined('ABSPATH') || exit;
 

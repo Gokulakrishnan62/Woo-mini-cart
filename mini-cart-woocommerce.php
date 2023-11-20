@@ -17,8 +17,6 @@
  * WC tested up to:      8.2
  */
 
-use MCW\App\Helpers\Page;
-
 defined('ABSPATH') || exit;
 
 // define basic plugin constants
@@ -42,3 +40,4 @@ if (class_exists('MCW\App\Core')) {
 } else {
     wp_die('Mini-cart for WooCommerce is unable to find the Core class.');
 }
+

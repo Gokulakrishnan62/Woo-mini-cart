@@ -3,9 +3,8 @@
 namespace MCW\App\Controllers;
 
 use MCW\App\Helpers\Database;
-use MCW\App\Helpers\Page;
+use MCW\App\Helpers\Template;
 use MCW\App\Helpers\WC;
-use MCW\App\Route;
 
 defined('ABSPATH') || exit;
 
@@ -23,8 +22,8 @@ class Ajax
             'remove_item_from_cart' => [__CLASS__, 'removeItemFromCart'],
             'update_quantity' => [__CLASS__, 'updateQuantity'],
             'refresh_mini_cart_body' => [__CLASS__, 'refreshMiniCartBody'],
-            'is_cart_empty' => [__CLASS__, 'IsCartEmpty'],
-            'get_cart_empty_html' => [__CLASS__, 'getCartEmptyHTML'],
+            'apply_coupon' => [__CLASS__, 'applyCoupon'],
+            'remove_coupon' => [__CLASS__, 'removeCoupon'],
         ]);
     }
 
@@ -39,8 +38,8 @@ class Ajax
             'remove_item_from_cart' => [__CLASS__, 'removeItemFromCart'],
             'update_quantity' => [__CLASS__, 'updateQuantity'],
             'refresh_mini_cart_body' => [__CLASS__, 'refreshMiniCartBody'],
-            'check_is_cart_empty_or_not' => [__CLASS__, 'IsCartEmpty'],
-            'get_cart_empty_html' => [__CLASS__, 'getCartEmptyHTML'],
+            'apply_coupon' => [__CLASS__, 'applyCoupon'],
+            'remove_coupon' => [__CLASS__, 'removeCoupon'],
         ]);
     }
 
@@ -73,6 +72,11 @@ class Ajax
         wp_send_json_error(['message' => __("Method not exists.", 'mini-cart-woocommerce')]);
     }
 
+    /***
+     * To save Settings.
+     *
+     * @return bool
+     */
     private static function saveOption()
     {
         $option = self::get('option', 0, 'post');
@@ -95,6 +99,9 @@ class Ajax
         if (!empty($cart_item_key)) {
             return [
                 'cart_item_removed' => WC::removeCartItem($cart_item_key),
+                'sidebar_content' => Template::getTemplateHTML('wmc-Body.php', [
+                    'cart_items' => WC::getCartItems(),
+                ]),
             ];
         }
         return ['status' => "error"];
@@ -111,48 +118,28 @@ class Ajax
         $current_quantity = self::get('current_quantity', '', 'post');
         $quantity_action = self::get('quantity_action', '', 'post');
 
-        if (!empty($cart_item_key) && !empty($current_quantity) && !empty($quantity_action)) {
-            if ($quantity_action == 'plus') {
-                $current_quantity += 1;
-            } elseif ($quantity_action == 'minus') {
-                $current_quantity -= 1;
+        if (!empty($cart_item_key) && !empty($quantity_action)) {
+            if (empty($current_quantity)) {
+                $is_quantity_set = WC::removeCartItem($cart_item_key);
+            } else {
+                if ($quantity_action == 'plus') {
+                    $current_quantity += 1;
+                } elseif ($quantity_action == 'minus') {
+                    $current_quantity -= 1;
+                }
+
+                $is_quantity_set = WC::setCartItemQty($cart_item_key, $current_quantity);
             }
-            WC::setCartItemQty($cart_item_key, $current_quantity);
-            $cart_item = WC::getCartItem($cart_item_key);
-            if (!empty($cart_item)) {
-                return [
-                    'quantity' => (int) $cart_item['quantity'],
-                    'line_total' => WC::formatPrice($cart_item['line_total']),
-                ];
-            }
+
+            return [
+                'is_quantity_set' => $is_quantity_set,
+                'sidebar_content' => Template::getTemplateHTML('wmc-Body.php', [
+                    'cart_items' => WC::getCartItems(),
+                ]),
+            ];
         }
         return [];
-    }
 
-    /**
-     * To check weather cart is Empty.
-     *
-     * @return bool
-     */
-    public static function IsCartEmpty()
-    {
-        $cart = WC::getCartItems();
-        if (empty($cart)) {
-            return true;
-        }
-        return false;
-    }
-
-    /***
-     * To get fresh Cart Body Html.
-     *
-     * @return false|string
-     */
-    public static function getCartEmptyHTML() {
-        if (file_exists(MCW_PLUGIN_PATH . 'Template/wmc-CartEmpty.php')) {
-            return Page::getTemplateHTML('wmc-CartEmpty.php');
-        }
-        return false;
     }
 
     /***
@@ -162,9 +149,35 @@ class Ajax
      */
     public static function refreshMiniCartBody() {
         if (file_exists(MCW_PLUGIN_PATH . 'Template/wmc-Body.php')) {
-            return Page::getTemplateHTML('wmc-Body.php', [
+            return Template::getTemplateHTML('wmc-Body.php', [
                 'cart_items' => WC::getCartItems(),
             ]);
+        }
+        return false;
+    }
+
+    /***
+     * To apply coupon.
+     * @return bool
+     */
+    public static function applyCoupon()
+    {
+        $coupon_code = sanitize_text_field(self::get('coupon_code', '', 'post'));
+        if (!empty($coupon_code)) {
+            return WC::getCart()->apply_coupon($coupon_code);
+        }
+        return false;
+    }
+
+    /***
+     * To apply coupon.
+     * @return bool
+     */
+    public static function removeCoupon()
+    {
+        $coupon_code = sanitize_text_field(self::get('coupon_code', '', 'post'));
+        if (!empty($coupon_code)) {
+            return WC::getCart()->remove_coupon($coupon_code);
         }
         return false;
     }
@@ -175,10 +188,9 @@ class Ajax
      * @param string $var
      * @param mixed $default
      * @param string $type
-     * @param string|false $sanitize
      * @return mixed
      */
-    public static function get($var, $default = '', $type = 'params', $sanitize = 'text')
+    public static function get($var, $default = '', $type = 'params')
     {
         // phpcs:disable
         if ($type == 'params' && isset($_REQUEST[$var])) {
