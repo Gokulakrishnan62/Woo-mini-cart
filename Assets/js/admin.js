@@ -29,7 +29,6 @@ jQuery(function ($) {
             });
 
             $('#mcw_admin_page .mcw-color-inputs .mcw-color-picker').on('input', function () {
-                debugger
                 $(this).closest('.mcw-color-inputs').find('.mcw-color-input').val($(this).val()).trigger('input');
             });
 

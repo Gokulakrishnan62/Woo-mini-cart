@@ -4,7 +4,6 @@ namespace MCW\App\Controllers;
 
 use MCW\App\Helpers\Database;
 use MCW\App\Helpers\Template;
-use MCW\App\Helpers\WC;
 
 defined('ABSPATH') || exit;
 
