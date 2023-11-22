@@ -21,7 +21,7 @@ class Ajax
             'save_option' => [__CLASS__, 'saveOption'],
             'remove_item_from_cart' => [__CLASS__, 'removeItemFromCart'],
             'update_quantity' => [__CLASS__, 'updateQuantity'],
-            'refresh_mini_cart_body' => [__CLASS__, 'refreshMiniCartBody'],
+            'refresh_mini_cart' => [__CLASS__, 'refreshMiniCart'],
             'apply_coupon' => [__CLASS__, 'applyCoupon'],
             'remove_coupon' => [__CLASS__, 'removeCoupon'],
         ]);
@@ -37,7 +37,7 @@ class Ajax
         return (array) apply_filters('mcw_ajax_guest_request_handlers', [
             'remove_item_from_cart' => [__CLASS__, 'removeItemFromCart'],
             'update_quantity' => [__CLASS__, 'updateQuantity'],
-            'refresh_mini_cart_body' => [__CLASS__, 'refreshMiniCartBody'],
+            'refresh_mini_cart' => [__CLASS__, 'refreshMiniCart'],
             'apply_coupon' => [__CLASS__, 'applyCoupon'],
             'remove_coupon' => [__CLASS__, 'removeCoupon'],
         ]);
@@ -81,9 +81,10 @@ class Ajax
     {
         $option = self::get('option', 0, 'post');
         $key = self::get('key', '', 'post');
+        parse_str($option, $data);
 
         if (!empty($key)) {
-            return Database::set($key, $option);
+            return Database::set($key, $data);
         }
         return false;
     }
@@ -99,8 +100,8 @@ class Ajax
         if (!empty($cart_item_key)) {
             return [
                 'cart_item_removed' => WC::removeCartItem($cart_item_key),
-                'sidebar_content' => Template::getTemplateHTML('wmc-Body.php', [
-                    'cart_items' => WC::getCartItems(),
+                'sidebar_content' => Template::getTemplateHTML('Contents.php', [
+                    'data' => Database::get('settings'),
                 ]),
             ];
         }
@@ -133,8 +134,8 @@ class Ajax
 
             return [
                 'is_quantity_set' => $is_quantity_set,
-                'sidebar_content' => Template::getTemplateHTML('wmc-Body.php', [
-                    'cart_items' => WC::getCartItems(),
+                'sidebar_content' => Template::getTemplateHTML('Contents.php', [
+                    'data' => Database::get('settings'),
                 ]),
             ];
         }
@@ -147,10 +148,10 @@ class Ajax
      *
      * @return false|string
      */
-    public static function refreshMiniCartBody() {
-        if (file_exists(MCW_PLUGIN_PATH . 'Template/wmc-Body.php')) {
-            return Template::getTemplateHTML('wmc-Body.php', [
-                'cart_items' => WC::getCartItems(),
+    public static function refreshMiniCart() {
+        if (file_exists(MCW_PLUGIN_PATH . 'Template/Contents.php')) {
+            return Template::getTemplateHTML('Contents.php', [
+                'data' => Database::get('settings'),
             ]);
         }
         return false;
@@ -158,28 +159,38 @@ class Ajax
 
     /***
      * To apply coupon.
-     * @return bool
+     * @return array
      */
     public static function applyCoupon()
     {
         $coupon_code = sanitize_text_field(self::get('coupon_code', '', 'post'));
         if (!empty($coupon_code)) {
-            return WC::getCart()->apply_coupon($coupon_code);
+            return [
+                'is_coupon_applied' => WC::getCart()->apply_coupon($coupon_code),
+                'sidebar_content' => Template::getTemplateHTML('Contents.php', [
+                    'data' => Database::get('settings'),
+                ]),
+            ];
         }
-        return false;
+        return [];
     }
 
     /***
-     * To apply coupon.
-     * @return bool
+     * To remove coupon.
+     * @return array
      */
     public static function removeCoupon()
     {
         $coupon_code = sanitize_text_field(self::get('coupon_code', '', 'post'));
         if (!empty($coupon_code)) {
-            return WC::getCart()->remove_coupon($coupon_code);
+            return [
+                'is_coupon_removed' => WC::getCart()->remove_coupon($coupon_code),
+                'sidebar_content' => Template::getTemplateHTML('Contents.php', [
+                    'data' => Database::get('settings'),
+                ]),
+            ];
         }
-        return false;
+        return [];
     }
 
     /**

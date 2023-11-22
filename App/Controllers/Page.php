@@ -2,11 +2,11 @@
 
 namespace MCW\App\Controllers;
 
+use MCW\App\Helpers\Database;
 use MCW\App\Helpers\Template;
 use MCW\App\Helpers\WC;
 
 defined('ABSPATH') || exit;
-
 
 class Page
 {
@@ -35,16 +35,16 @@ class Page
     public static function adminPage()
     {
         if (file_exists(MCW_PLUGIN_PATH . '/App/Views/Admin.php')) {
-            include (MCW_PLUGIN_PATH . '/App/Views/Admin.php');
+            include MCW_PLUGIN_PATH . '/App/Views/Admin.php';
         }
     }
 
     /***
-     * To Load Widget and sidebar.
+     * To Load Widget.
      */
      public static function loadWidgetAndSidebar() {
-        echo Template::getTemplateHTML('wmc-Widget.php', [
-             'cart_items' => WC::getCartItems(),
+        echo Template::getTemplateHTML('Widget.php', [
+             'data' => Database::get('settings'),
          ]);
     }
 }

@@ -33,20 +33,6 @@ class WC
         return null;
     }
 
-    /**
-     * To check weather cart is Empty.
-     *
-     * @return bool
-     */
-    public static function checkCartIsEmpty()
-    {
-        $cart = self::getCart();
-        if (empty($cart)) {
-            return false;
-        }
-        return true;
-    }
-
 
     /**
      * Get cart item
