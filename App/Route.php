@@ -49,7 +49,6 @@ class Route
         add_action('wp_ajax_mcw_ajax', [Ajax::class, 'handleAuthRequests']);
         add_action('wp_ajax_nopriv_mcw_ajax', [Ajax::class, 'handleGuestRequests']);
     }
-
 }
 
 

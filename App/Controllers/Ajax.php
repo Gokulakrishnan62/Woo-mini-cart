@@ -49,6 +49,7 @@ class Ajax
      */
     public static function handleAuthRequests()
     {
+        self::verifyNonce();
         $method = self::get('method', '', 'post');
         $handlers = self::getAuthRequestHandlers();
         if (!empty($method) && isset($handlers[$method]) && is_callable($handlers[$method])) {
@@ -64,12 +65,24 @@ class Ajax
      */
     public static function handleGuestRequests()
     {
+        self::verifyNonce();
         $method = self::get('method', '', 'post');
         $handlers = self::getGuestRequestHandlers();
         if (!empty($method) && isset($handlers[$method]) && is_callable($handlers[$method])) {
             wp_send_json_success(call_user_func($handlers[$method]));
         }
         wp_send_json_error(['message' => __("Method not exists.", 'mini-cart-woocommerce')]);
+    }
+
+    /***
+     * @return void
+     */
+    public static function verifyNonce()
+    {
+        $nonce = self::get('mcw_nonce', '', 'post');
+        if (!wp_verify_nonce($nonce, 'mcw_nonce')) {
+            wp_send_json_error(['message' => __("Security check failed!", 'mini-cart-woocommerce')]);
+        }
     }
 
     /***

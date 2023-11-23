@@ -1,6 +1,7 @@
 jQuery(function ($) {
     let mcw_ajx_url = mcw_frontend_script_data.ajax_url;
     let mcw_is_cart = (mcw_frontend_script_data.is_cart == '1');
+    let mcw_nonce = mcw_frontend_script_data.mcw_nonce || '';
     let mcw_is_checkout = (mcw_frontend_script_data.is_checkout == '1');
     let mcw_has_cart_block = (mcw_frontend_script_data.has_cart_block == '1');
     let mcw_has_checkout_block = (mcw_frontend_script_data.has_checkout_block == '1');
@@ -60,6 +61,7 @@ jQuery(function ($) {
                     action: 'mcw_ajax',
                     method: 'remove_item_from_cart',
                     cart_item_key: cart_item_key,
+                    mcw_nonce: mcw_nonce || '',
                 },
                 beforeSend: function () {
                     mcw_spinner.show(content);
@@ -94,6 +96,7 @@ jQuery(function ($) {
                         cart_item_key: cart_item_key,
                         current_quantity: current_quantity,
                         quantity_action: action,
+                        mcw_nonce: mcw_nonce || '',
                     },
                     beforeSend: function () {
                         mcw_spinner.show(content);
@@ -126,6 +129,7 @@ jQuery(function ($) {
                     action: 'mcw_ajax',
                     method: 'apply_coupon',
                     coupon_code: coupon_code,
+                    mcw_nonce: mcw_nonce || '',
                 },
                 beforeSend: function () {
                     mcw_spinner.show(content);
@@ -156,6 +160,7 @@ jQuery(function ($) {
                     action: 'mcw_ajax',
                     method: 'remove_coupon',
                     coupon_code: coupon_code,
+                    mcw_nonce: mcw_nonce || '',
                 },
                 beforeSend: function () {
                     mcw_spinner.show(content);
@@ -187,6 +192,7 @@ jQuery(function ($) {
                 data: {
                     action: 'mcw_ajax',
                     method: 'refresh_mini_cart',
+                    mcw_nonce: mcw_nonce || '',
                 },
                 beforeSend: function () {
                     mcw_spinner.show(content);

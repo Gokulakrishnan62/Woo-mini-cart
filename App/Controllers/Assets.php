@@ -18,6 +18,7 @@ class Assets
         $admin_scripts = apply_filters('mcw_admin_scripts_data', [
                 'ajax_url' => admin_url('admin-ajax.php'),
                 'template_data' => Template::getDefaultData(),
+                'mcw_nonce' => wp_create_nonce('mcw_nonce'),
             ]
         );
 
@@ -42,6 +43,7 @@ class Assets
     {
         $frontend_scripts = apply_filters('mcw_frontend_scripts_data', [
                 'ajax_url' => admin_url('admin-ajax.php'),
+                'mcw_nonce' => wp_create_nonce('mcw_nonce'),
                 'is_cart' => function_exists('is_cart') && is_cart(),
                 'is_checkout' => function_exists('is_checkout') && is_checkout(),
                 'has_cart_block' => function_exists('has_block') && has_block('woocommerce/cart'),

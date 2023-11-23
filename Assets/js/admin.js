@@ -1,6 +1,7 @@
 jQuery(function ($) {
     let mcw_ajx_url = mcw_admin_script_data.ajax_url;
     let mcw_default_data = mcw_admin_script_data.template_data;
+    let mcw_nonce = mcw_admin_script_data.mcw_nonce;
 
     const mcw_admin_view = {
         init: function () {
@@ -16,6 +17,7 @@ jQuery(function ($) {
                     method: 'save_option',
                     option: $('#mcw_show_widget').serialize(),
                     key: 'settings',
+                    mcw_nonce: mcw_nonce || '',
                 },
                 success: function (response) {
                     location.reload(true);
