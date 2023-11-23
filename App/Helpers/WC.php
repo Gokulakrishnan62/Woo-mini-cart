@@ -7,7 +7,7 @@ defined('ABSPATH') || exit;
 class WC
 {
     /**
-     * Get cart items
+     * Get cart items.
      *
      * @return array
      */
@@ -21,7 +21,7 @@ class WC
     }
 
     /**
-     * Get cart object
+     * Get cart object.
      *
      * @return \WC_Cart|null
      */
@@ -35,7 +35,7 @@ class WC
 
 
     /**
-     * Get cart item
+     * Get cart item.
      *
      * @param string $key
      * @return array
@@ -50,7 +50,7 @@ class WC
     }
 
     /**
-     * Remove cart item
+     * Remove cart item.
      *
      * @param string $key
      * @return bool
@@ -65,7 +65,7 @@ class WC
     }
 
     /**
-     * Set cart item quantity
+     * Set cart item quantity.
      *
      * @param string $key
      * @param int|float $quantity
@@ -82,7 +82,7 @@ class WC
     }
 
     /**
-     * Get formatted price html
+     * Get formatted price html.
      *
      * @param int $price
      * @param array $args

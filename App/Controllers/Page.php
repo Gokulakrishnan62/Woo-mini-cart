@@ -11,6 +11,7 @@ class Page
 {
     /***
      * To add Admin menu.
+     *
      * @return void
      */
     public static function addMenu()
@@ -29,6 +30,7 @@ class Page
 
     /***
      * To load Admin menu page.
+     *
      * @return void
      */
     public static function adminPage()

@@ -29,6 +29,7 @@ class Template
 
     /***
      * To get the default admin settings.
+     *
      * @return array
      */
     public static function getDefaultData() {

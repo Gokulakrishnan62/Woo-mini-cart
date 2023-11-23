@@ -9,7 +9,7 @@ defined('ABSPATH') || exit;
 class Core
 {
     /***
-     * Bootstrap plugin
+     * To Bootstrap plugin
      */
    public function bootstrap()
    {

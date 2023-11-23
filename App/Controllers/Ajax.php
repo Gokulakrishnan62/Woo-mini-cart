@@ -13,6 +13,7 @@ class Ajax
 
     /***
      * Get authenticated user request handlers.
+     *
      * @return array
      */
     private static function getAuthRequestHandlers()
@@ -45,6 +46,7 @@ class Ajax
 
     /**
      * To handle authenticated user requests.
+     *
      * @return void
      */
     public static function handleAuthRequests()
@@ -75,6 +77,8 @@ class Ajax
     }
 
     /***
+     * To verify nonce.
+     *
      * @return void
      */
     public static function verifyNonce()
@@ -103,7 +107,7 @@ class Ajax
     }
 
     /**
-     * Remove item from cart
+     * Remove item from cart.
      *
      * @return array
      */
@@ -141,10 +145,8 @@ class Ajax
                 } elseif ($quantity_action == 'minus') {
                     $current_quantity -= 1;
                 }
-
                 $is_quantity_set = WC::setCartItemQty($cart_item_key, $current_quantity);
             }
-
             return [
                 'is_quantity_set' => $is_quantity_set,
                 'sidebar_content' => Template::getTemplateHTML('Contents.php', [
@@ -153,7 +155,6 @@ class Ajax
             ];
         }
         return [];
-
     }
 
     /***
@@ -172,6 +173,7 @@ class Ajax
 
     /***
      * To apply coupon.
+     *
      * @return array
      */
     public static function applyCoupon()
@@ -190,6 +192,7 @@ class Ajax
 
     /***
      * To remove coupon.
+     *
      * @return array
      */
     public static function removeCoupon()
@@ -227,7 +230,6 @@ class Ajax
             return $_COOKIE[$var];
         }
         // phpcs:enable
-
         return $default;
     }
 }
