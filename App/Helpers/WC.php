@@ -7,7 +7,7 @@ defined('ABSPATH') || exit;
 class WC
 {
     /**
-     * Get cart items
+     * Get cart items.
      *
      * @return array
      */
@@ -21,7 +21,7 @@ class WC
     }
 
     /**
-     * Get cart object
+     * Get cart object.
      *
      * @return \WC_Cart|null
      */
@@ -33,23 +33,9 @@ class WC
         return null;
     }
 
-    /**
-     * To check weather cart is Empty.
-     *
-     * @return bool
-     */
-    public static function checkCartIsEmpty()
-    {
-        $cart = self::getCart();
-        if (empty($cart)) {
-            return false;
-        }
-        return true;
-    }
-
 
     /**
-     * Get cart item
+     * Get cart item.
      *
      * @param string $key
      * @return array
@@ -64,7 +50,7 @@ class WC
     }
 
     /**
-     * Remove cart item
+     * Remove cart item.
      *
      * @param string $key
      * @return bool
@@ -79,7 +65,7 @@ class WC
     }
 
     /**
-     * Set cart item quantity
+     * Set cart item quantity.
      *
      * @param string $key
      * @param int|float $quantity
@@ -96,36 +82,8 @@ class WC
     }
 
     /**
-     * Get formatted price raw
+     * Get formatted price html.
      *
-     * @param int|float $price
-     * @param array $args
-     * @return string
-     */
-    public static function formatPriceRaw($price, $args = [])
-    {
-        $args = array_merge([
-            'with_currency' => true,
-            'trim_zeros' => false,
-        ], $args);
-        if (is_numeric($price)) {
-            $decimals = function_exists('wc_get_price_decimals') ? wc_get_price_decimals() : 2;
-            $decimal_separator = function_exists('wc_get_price_decimal_separator') ? wc_get_price_decimal_separator() : '.';
-            $thousand_separator = function_exists('wc_get_price_thousand_separator') ? wc_get_price_thousand_separator() : '';
-            $price = number_format($price, $decimals, $decimal_separator, $thousand_separator);
-            if ($args['trim_zeros']) {
-                $price = rtrim(rtrim($price,'0'), $decimal_separator);
-            }
-            if ($args['with_currency'] && function_exists('get_woocommerce_price_format') && function_exists('get_woocommerce_currency_symbol')) {
-                $price = sprintf(get_woocommerce_price_format(), get_woocommerce_currency_symbol(), $price);
-            }
-        }
-        return (string) $price;
-    }
-
-    /**
-     * Get formatted price html
-     *){
      * @param int $price
      * @param array $args
      * @return string

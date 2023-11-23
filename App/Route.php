@@ -3,12 +3,8 @@
 namespace MCW\App;
 
 use MCW\App\Controllers\Ajax;
-use MCW\App\Helpers\Assets;
-use MCW\App\Helpers\Database;
-use MCW\App\Helpers\Page;
-use MCW\App\Helpers\WC;
-use MCW\App\Helpers\WP;
-
+use MCW\App\Controllers\Assets;
+use MCW\App\Controllers\Page;
 
 defined('ABSPATH') || exit;
 
@@ -20,7 +16,7 @@ class Route
     public static function  init()
     {
         self::addGeneralHooks();
-        if (WP::isAdmin()) {
+        if (is_admin()) {
             self::addAdminHooks();
         } else {
             self::addStoreHooks();
@@ -32,8 +28,8 @@ class Route
      */
     public static function addAdminHooks()
     {
-        add_action('admin_menu', [Page::class, 'addMenu']);
         add_action('admin_enqueue_scripts', [Assets::class,'loadAdminAssets']);
+        add_action('admin_menu', [Page::class, 'addMenu']);
     }
 
     /***
@@ -41,14 +37,8 @@ class Route
      */
     public static function addStoreHooks()
     {
-        if (Database::get('enable_widgets')) {
-            add_action('wp_footer', function (){
-                Page::getTemplateHTML('wmc-Widget.php', [
-                    'cart_items' => WC::getCartItems(),
-                ], true);
-            });
-            add_action('wp_enqueue_scripts', [Assets::class,'loadFrontendAssets']);
-        }
+        add_action('wp_enqueue_scripts', [Assets::class, 'loadFrontendAssets']);
+        add_action('wp_footer',[Page::class, 'loadWidgetAndSidebar']);
     }
 
     /***
@@ -59,7 +49,6 @@ class Route
         add_action('wp_ajax_mcw_ajax', [Ajax::class, 'handleAuthRequests']);
         add_action('wp_ajax_nopriv_mcw_ajax', [Ajax::class, 'handleGuestRequests']);
     }
-
 }
 
 

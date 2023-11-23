@@ -3,15 +3,13 @@
 namespace MCW\App;
 
 use MCW\App\Helpers\Plugin;
-use MCW\App\Route;
-use MCW\App\Setup;
 
 defined('ABSPATH') || exit;
 
 class Core
 {
     /***
-     * Bootstrap plugin
+     * To Bootstrap plugin
      */
    public function bootstrap()
    {

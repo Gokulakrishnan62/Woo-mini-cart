@@ -25,7 +25,7 @@ class Database
     }
 
     /**
-     * Get config to options table.
+     * Get config from options table.
      *
      * @param string $key
      * @param mixed $value
