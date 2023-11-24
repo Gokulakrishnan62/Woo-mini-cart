@@ -41,7 +41,9 @@ class Page
     }
 
     /***
-     * To Load Widget.
+     * To load Widget and mini cart.
+     *
+     * @return void
      */
      public static function loadWidgetAndSidebar() {
         echo Template::getTemplateHTML('Widget.php', [

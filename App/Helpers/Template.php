@@ -44,21 +44,55 @@ class Template
             'cart_cta_text' => 'View cart',
             'style' => [
                 'header' => [
-                    'font-size' => '',
-                    'background-color' => '#000000',
-                    'color' => '#000000',
+                    'font-size' => '32px',
+                    'background-color' => '#005c86',
+                    'color' => '#effbff',
                 ],
                 'body' => [
                     'font-size' => '',
-                    'background-color' => '#000000',
-                    'color' => '#000000',
+                    'background-color' => '#005c86',
+                    'color' => '#effbff',
+                ],
+                'coupon' => [
+                    'font-size' => '',
+                    'background-color' => '#005c86',
+                    'color' => '#effbff',
                 ],
                 'footer' => [
-                    'font-size' => '',
-                    'background-color' => '#000000',
-                    'color' => '#000000',
+                    'font-size' => '24px',
+                    'background-color' => '#005c86',
+                    'color' => '#effbff',
+                ],
+                'action' => [
+                    'font-size' => '16px',
+                    'background-color' => '#9dadbc',
+                    'color' => '#3a4856',
                 ]
             ],
         ]);
+    }
+
+    /***
+     * To format the styles.
+     *
+     * @param array $data
+     *
+     * @return array
+     */
+    public static function prepareInlineStyles($data) {
+        if (isset($data['style'])) {
+            $section_styles = [];
+            foreach ($data['style'] as $section => $style) {
+                $styles = '';
+                foreach ($style as $property_name => $value) {
+                    if (!empty($value)) {
+                        $styles = $styles . $property_name . ': ' . $value . ';';
+                    }
+                }
+                $section_styles[$section] = $styles;
+            }
+            $data['style'] = $section_styles;
+        }
+        return $data;
     }
 }

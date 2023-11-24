@@ -11,6 +11,6 @@ isset($data) || exit;
     </div>
 </div>
 
-<div id="mcw-cart-sidebar">
+<div id="mcw-cart-sidebar" style="<?php echo esc_attr($data['style']['body']);?> ">
     <?php include_once MCW_PLUGIN_PATH . 'Template/Contents.php'; ?>
 </div>

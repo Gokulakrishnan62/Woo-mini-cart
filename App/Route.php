@@ -11,9 +11,9 @@ defined('ABSPATH') || exit;
 class Route
 {
     /**
-     * To add hooks
+     * To add hooks.
      */
-    public static function  init()
+    public static function init()
     {
         self::addGeneralHooks();
         if (is_admin()) {
@@ -24,7 +24,7 @@ class Route
     }
 
     /***
-     * To load admin hooks
+     * To load admin hooks.
      */
     public static function addAdminHooks()
     {
@@ -33,7 +33,7 @@ class Route
     }
 
     /***
-     * To load store hooks
+     * To load store hooks.
      */
     public static function addStoreHooks()
     {
@@ -42,7 +42,7 @@ class Route
     }
 
     /***
-     * To load general hooks
+     * To load general hooks.
      */
     public static function addGeneralHooks()
     {
@@ -50,6 +50,3 @@ class Route
         add_action('wp_ajax_nopriv_mcw_ajax', [Ajax::class, 'handleGuestRequests']);
     }
 }
-
-
-

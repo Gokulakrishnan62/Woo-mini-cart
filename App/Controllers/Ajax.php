@@ -81,7 +81,7 @@ class Ajax
      *
      * @return void
      */
-    public static function verifyNonce()
+    private static function verifyNonce()
     {
         $nonce = self::get('mcw_nonce', '', 'post');
         if (!wp_verify_nonce($nonce, 'mcw_nonce')) {
@@ -111,7 +111,7 @@ class Ajax
      *
      * @return array
      */
-    public static function removeItemFromCart()
+    private static function removeItemFromCart()
     {
         $cart_item_key = self::get('cart_item_key', '', 'post');
         if (!empty($cart_item_key)) {
@@ -130,7 +130,7 @@ class Ajax
      *
      * @return array
      */
-    public static function updateQuantity()
+    private static function updateQuantity()
     {
         $cart_item_key = self::get('cart_item_key', '', 'post');
         $current_quantity = self::get('current_quantity', '', 'post');
@@ -154,7 +154,7 @@ class Ajax
                 ]),
             ];
         }
-        return [];
+        return ['status' => "error"];
     }
 
     /***
@@ -162,7 +162,7 @@ class Ajax
      *
      * @return false|string
      */
-    public static function refreshMiniCart() {
+    private static function refreshMiniCart() {
         if (file_exists(MCW_PLUGIN_PATH . 'Template/Contents.php')) {
             return Template::getTemplateHTML('Contents.php', [
                 'data' => Database::get('settings'),
@@ -176,12 +176,14 @@ class Ajax
      *
      * @return array
      */
-    public static function applyCoupon()
+    private static function applyCoupon()
     {
         $coupon_code = sanitize_text_field(self::get('coupon_code', '', 'post'));
         if (!empty($coupon_code)) {
+            $is_coupon_applied = WC::getCart()->apply_coupon($coupon_code);
+            WC()->cart->calculate_totals();
             return [
-                'is_coupon_applied' => WC::getCart()->apply_coupon($coupon_code),
+                'is_coupon_applied' => $is_coupon_applied,
                 'sidebar_content' => Template::getTemplateHTML('Contents.php', [
                     'data' => Database::get('settings'),
                 ]),
@@ -195,12 +197,14 @@ class Ajax
      *
      * @return array
      */
-    public static function removeCoupon()
+    private static function removeCoupon()
     {
         $coupon_code = sanitize_text_field(self::get('coupon_code', '', 'post'));
         if (!empty($coupon_code)) {
+            $is_coupon_removed = WC::getCart()->remove_coupon($coupon_code);
+            WC()->cart->calculate_totals();
             return [
-                'is_coupon_removed' => WC::getCart()->remove_coupon($coupon_code),
+                'is_coupon_removed' => $is_coupon_removed,
                 'sidebar_content' => Template::getTemplateHTML('Contents.php', [
                     'data' => Database::get('settings'),
                 ]),
