@@ -6,6 +6,9 @@ jQuery(function ($) {
     let mcw_has_cart_block = (mcw_frontend_script_data.has_cart_block == '1');
     let mcw_has_checkout_block = (mcw_frontend_script_data.has_checkout_block == '1');
 
+    // to prevent double loading
+    let prevent_double_loading =  false;
+
     window.mcw_spinner = {
         // show spinner
         show: function (section) {
@@ -105,6 +108,7 @@ jQuery(function ($) {
                         if (response.data.is_quantity_set && response.data.sidebar_content != '') {
                             mcw_actions.update_fragments();
                             content.html(response.data.sidebar_content);
+                            prevent_double_loading = true;
                         }
                     },
                     complete: function () {
@@ -138,6 +142,7 @@ jQuery(function ($) {
                     if (response.data.is_coupon_applied && response.data.sidebar_content != '') {
                         mcw_actions.update_fragments();
                         content.html(response.data.sidebar_content);
+                        prevent_double_loading = true;
                     }
                 },
                 complete: function () {
@@ -167,10 +172,10 @@ jQuery(function ($) {
                 },
                 success : function (response) {
                     if (response.data) {
-                        mcw_actions.update_fragments();
                         if (response.data.is_coupon_removed && response.data.sidebar_content != '') {
                             mcw_actions.update_fragments();
                             content.html(response.data.sidebar_content);
+                            prevent_double_loading = prevent_double_loading ? false : true;
                         }
                     }
                 },
@@ -215,7 +220,7 @@ jQuery(function ($) {
     });
 
     // to add quantity (add).
-    $(document).on("click", '.mcw-products .mcw-product .mcw-quantity-container .mcw-quantity-plus' ,function() {
+    $(document).on("click", '.mcw-products .mcw-product .mcw-quantity-container .mcw-quantity-plus' ,function(event) {
         mcw_actions.quantity_update($(this).closest('.mcw-product'), $(this).closest('#mcw-cart-sidebar'), 'plus');
     });
 
@@ -239,6 +244,13 @@ jQuery(function ($) {
         mcw_actions.remove_coupon($(this), $(this).closest('#mcw-cart-sidebar'));
     });
 
+    // display add coupon filed
+    $(document).on("click", '#mcw-cart-sidebar #mcw-add-coupon' ,function() {
+        $("#mcw-add-coupon-field").toggle();
+        $(".mcw-coupon-option").toggle();
+        $("#mcw-coupon-list").toggle();
+    });
+
     // to refresh mini-cart when product added.
     $(document.body).on('added_to_cart', function(event, fragments, cart_hash, button) {
         if ($(button).hasClass('add_to_cart_button')) {
@@ -248,16 +260,36 @@ jQuery(function ($) {
 
     // to refresh mini-cart when cart updated.
     $(document.body).on('updated_cart_totals', function() {
-        mcw_actions.refresh_mini_cart($("#mcw-cart-sidebar"));
+
+        // check for prevent double loading
+        let when_update_by_ajax = prevent_double_loading ? false : true;
+        let when_update_by_cart = prevent_double_loading ? true : false;
+
+        if (when_update_by_ajax && !when_update_by_cart) {
+            mcw_actions.refresh_mini_cart($("#mcw-cart-sidebar"));
+        }
+
+        // reset the double loading
+        prevent_double_loading = false;
     });
 
     // to refresh mini-cart when checkout page updated.
     $(document.body).on('updated_checkout', function() {
-        mcw_actions.refresh_mini_cart($("#mcw-cart-sidebar"));
+
+        // check for prevent double loading
+        let when_update_by_ajax = prevent_double_loading ? false : true;
+        let when_update_by_cart = prevent_double_loading ? true : false;
+
+        if (when_update_by_ajax && !when_update_by_cart) {
+            mcw_actions.refresh_mini_cart($("#mcw-cart-sidebar"));
+        }
+
+        // reset the double loading
+        prevent_double_loading = false;
     });
 
     // to toggle sidebar
-    $(document).on("click", '.widget-container', function() {
+    $(document).on("click", '.widget-container, #mcw-close-cart', function() {
         const sidebar = $('#mcw-cart-sidebar');
         sidebar.css('left', sidebar.css('left') === '0px' ? '-1000px' : '0px');
     });

@@ -23,7 +23,7 @@ class Setup
      */
     public static function activate()
     {
-       Plugin::checkDependencies(true);
+       Plugin::checkDependencies();
     }
 
     public static function deactivate()

@@ -15,7 +15,7 @@ jQuery(function ($) {
                 data: {
                     action: 'mcw_ajax',
                     method: 'save_option',
-                    option: $('#mcw_show_widget').serialize(),
+                    option: $('#mcw-show-widget').serialize(),
                     key: 'settings',
                     mcw_nonce: mcw_nonce || '',
                 },
@@ -26,15 +26,18 @@ jQuery(function ($) {
         },
 
         event_listeners: function () {
-            $("#mcw_admin_page #mcw_action_widget").click( function () {
+            // to save function.
+            $("#mcw-admin-page #mcw-action-widget").click( function () {
                 mcw_admin_view.save_option();
             });
 
-            $('#mcw_admin_page .mcw-color-inputs .mcw-color-picker').on('input', function () {
+            // to display color picker value as hex value.
+            $('#mcw-admin-page .mcw-color-inputs .mcw-color-picker').on('input', function () {
                 $(this).closest('.mcw-color-inputs').find('.mcw-color-input').val($(this).val()).trigger('input');
             });
 
-            $('#mcw_admin_page .mcw-color-inputs .mcw-color-input').on('input blur', function () {
+            // to display color of hex value.
+            $('#mcw-admin-page .mcw-color-inputs .mcw-color-input').on('input blur', function () {
                 if ($(this).val() && !/^#[0-9a-fA-F]{6}$/i.test($(this).val())) {
                     $(this).addClass('border-danger');
                 } else {
@@ -43,16 +46,19 @@ jQuery(function ($) {
                 $(this).closest('.mcw-color-inputs').find('.mcw-color-picker').val($(this).val());
             }).trigger('input');
 
-            $('#mcw_admin_page .mcw-show-cart-button').change(function () {
+            // to show cart button.
+            $('#mcw-admin-page .mcw-show-cart-button').change(function () {
                 if ($(this).is(':checked')) {
                     $(".mcw-cart-button-cta").show()
+                    $(".mcw-show-cart-button").val(1)
                 } else {
                     $(".mcw-cart-button-cta").hide()
                 }
             });
 
-            $('#mcw_admin_page #mcw_reset_button').click(function () {
-                let admin_data = $("#mcw_show_widget");
+            // to reset the values.
+            $('#mcw-admin-page #mcw-reset-button').click(function () {
+                let admin_data = $("#mcw-show-widget");
                 $.each(mcw_default_data, function (name, value) {
                     if(name === 'style') {
                         $.each(value, function (section_name, section_property){
@@ -60,11 +66,11 @@ jQuery(function ($) {
                                 admin_data.find('[name="'+ name +'[' + section_name + ']['+ property_name +']"]').val(property_value);
                             } );
                         })
-                        $('#mcw_admin_page .mcw-color-inputs .mcw-color-input').trigger('input');
+                        $('#mcw-admin-page .mcw-color-inputs .mcw-color-input').trigger('input');
                     } else {
                         admin_data.find('[name="' + name + '"]').val(value);
                         admin_data.find('[name="' + name + '"]:checkbox').prop("checked", value !== '' ? true : false);
-                        $('#mcw_admin_page .mcw-show-cart-button').trigger('change');
+                        $('#mcw-admin-page .mcw-show-cart-button').trigger('change');
                     }
                 });
             });

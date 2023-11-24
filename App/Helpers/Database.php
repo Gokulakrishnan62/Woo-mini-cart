@@ -28,10 +28,12 @@ class Database
      * Get config from options table.
      *
      * @param string $key
-     * @param mixed $value
+     * @param mixed $default
+     * @param bool $format
+     *
      * @return mixed
      */
-    public static function get($key, $default = '')
+    public static function get($key, $default = '', $format = true)
     {
         $key = sanitize_key($key);
         if (empty($key)) {
@@ -39,6 +41,9 @@ class Database
         }
 
         $key = 'mcw_' . $key;
+        if ($format) {
+            return Template::prepareInlineStyles(get_option($key, $default));
+        }
         return get_option($key, $default);
     }
 }
