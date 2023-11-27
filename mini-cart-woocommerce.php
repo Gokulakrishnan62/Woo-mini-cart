@@ -17,6 +17,10 @@
  * WC tested up to:      8.2
  */
 
+use MCW\App\Helpers\Plugin;
+use MCW\App\Route;
+use MCW\App\Setup;
+
 defined('ABSPATH') || exit;
 
 // define basic plugin constants
@@ -33,11 +37,16 @@ if (file_exists(MCW_PLUGIN_PATH . '/vendor/autoload.php')) {
 }
 
 // To bootstrap the plugin
-if (class_exists('MCW\App\Core')) {
-    global $mcw_app;
-    $mcw_app = new MCW\App\Core();
-    $mcw_app->bootstrap(); // bootstrap plugin
+if (class_exists('MCW\App\Route')) {
+    // to check dependencies when plugin bootstrap.
+    Setup::init();
+
+    add_action('plugins_loaded', function (){
+        if (Plugin::checkDependencies()) {
+            Route::init();
+        }
+    });
 } else {
-    wp_die('Mini-cart for WooCommerce is unable to find the Core class.');
+    wp_die('Mini-cart for WooCommerce is unable to find its Route file.');
 }
 

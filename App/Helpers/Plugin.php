@@ -16,21 +16,21 @@ class Plugin
         global $wp_version;
         // check whether Woocommerce is installed and activated.
         if (!class_exists('WooCommerce')) {
-            $message = 'Mini-cart-Woocommerce needs Woocommerce is installed and activated.';
+            $message = 'Mini-cart for woocommerce needs Woocommerce is installed and activated.';
             self::dependenciesMissingMessage($message);
             return false;
         }
 
         // check whether PHP version is meet our concern.
         if (!version_compare(PHP_VERSION, '5.6', '>=')) {
-            $message = 'Mini-cart-Woocommerce needs PHP version "5.6" or from above.';
+            $message = 'Mini-cart for woocommerce needs PHP version "5.6" or from above.';
             self::dependenciesMissingMessage($message);
             return false;
         }
 
         // check whether WordPress version is meet our concern.
         if (!version_compare($wp_version, '5.3', '>=')) {
-            $message = 'Mini-cart-Woocommerce needs WordPress version "5.3" or from above.';
+            $message = 'Mini-cart for woocommerce needs WordPress version "5.3" or from above.';
             self::dependenciesMissingMessage($message);
             return false;
         }
