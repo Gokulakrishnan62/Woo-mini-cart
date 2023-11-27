@@ -52,7 +52,7 @@ class Ajax
     public static function handleAuthRequests()
     {
         self::verifyNonce();
-        $method = self::get('method', '', 'post');
+        $method = self::request('method', '', 'post');
         $handlers = self::getAuthRequestHandlers();
         if (!empty($method) && isset($handlers[$method]) && is_callable($handlers[$method])) {
             wp_send_json_success(call_user_func($handlers[$method]));
@@ -68,7 +68,7 @@ class Ajax
     public static function handleGuestRequests()
     {
         self::verifyNonce();
-        $method = self::get('method', '', 'post');
+        $method = self::request('method', '', 'post');
         $handlers = self::getGuestRequestHandlers();
         if (!empty($method) && isset($handlers[$method]) && is_callable($handlers[$method])) {
             wp_send_json_success(call_user_func($handlers[$method]));
@@ -83,7 +83,7 @@ class Ajax
      */
     private static function verifyNonce()
     {
-        $nonce = self::get('mcw_nonce', '', 'post');
+        $nonce = self::request('mcw_nonce', '', 'post');
         if (!wp_verify_nonce($nonce, 'mcw_nonce')) {
             wp_send_json_error(['message' => __("Security check failed!", 'mini-cart-woocommerce')]);
         }
@@ -96,8 +96,8 @@ class Ajax
      */
     private static function saveOption()
     {
-        $option = self::get('option', 0, 'post');
-        $key = self::get('key', '', 'post');
+        $option = self::request('option', 0, 'post');
+        $key = self::request('key', '', 'post');
         parse_str($option, $data);
 
         if (!empty($key)) {
@@ -113,7 +113,7 @@ class Ajax
      */
     private static function removeItemFromCart()
     {
-        $cart_item_key = self::get('cart_item_key', '', 'post');
+        $cart_item_key = self::request('cart_item_key', '', 'post');
         if (!empty($cart_item_key)) {
             return [
                 'cart_item_removed' => WC::removeCartItem($cart_item_key),
@@ -132,9 +132,9 @@ class Ajax
      */
     private static function updateQuantity()
     {
-        $cart_item_key = self::get('cart_item_key', '', 'post');
-        $current_quantity = self::get('current_quantity', '', 'post');
-        $quantity_action = self::get('quantity_action', '', 'post');
+        $cart_item_key = self::request('cart_item_key', '', 'post');
+        $current_quantity = self::request('current_quantity', '', 'post');
+        $quantity_action = self::request('quantity_action', '', 'post');
 
         if (!empty($cart_item_key) && !empty($quantity_action)) {
             if (empty($current_quantity)) {
@@ -178,7 +178,7 @@ class Ajax
      */
     private static function applyCoupon()
     {
-        $coupon_code = sanitize_text_field(self::get('coupon_code', '', 'post'));
+        $coupon_code = sanitize_text_field(self::request('coupon_code', '', 'post'));
         if (!empty($coupon_code)) {
             $is_coupon_applied = WC::getCart()->apply_coupon($coupon_code);
             WC()->cart->calculate_totals();
@@ -199,7 +199,7 @@ class Ajax
      */
     private static function removeCoupon()
     {
-        $coupon_code = sanitize_text_field(self::get('coupon_code', '', 'post'));
+        $coupon_code = sanitize_text_field(self::request('coupon_code', '', 'post'));
         if (!empty($coupon_code)) {
             $is_coupon_removed = WC::getCart()->remove_coupon($coupon_code);
             WC()->cart->calculate_totals();
@@ -221,7 +221,7 @@ class Ajax
      * @param string $type
      * @return mixed
      */
-    public static function get($var, $default = '', $type = 'params')
+    public static function request($var, $default = '', $type = 'params')
     {
         // phpcs:disable
         if ($type == 'params' && isset($_REQUEST[$var])) {
