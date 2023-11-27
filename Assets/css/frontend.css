@@ -1,45 +1,45 @@
 .widget-container {
     position: fixed;
-    top: 20px;
+    bottom: 30px;
     right: 20px;
-    z-index: 999;
+    z-index: 1000000;
+    line-height: 1;
+    border-radius: 5%;
 }
 
 .mcw-widget {
-    background-color: #3498db;
-    color: #fff;
+    height: 80px;
+    width: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 50%;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
-.mcw-widget h2 {
-    margin-top: 0;
-    font-size: 1.5rem;
-}
-
-.mcw-widget p {
-    margin-bottom: 0;
-    color: #ecf0f1;
-}
-
-.mcw-widget:hover {
-    background-color: #2980b9;
+.widget-container:hover {
+    animation: widget-container 0.6s;
 }
 
 #mcw-cart-sidebar {
     position: fixed;
     top: 0;
+    bottom: 0;
     right: -1000px;
     width: 450px;
     height: 100%;
     background-color: #2c3e50;
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
     transition: right 0.3s ease;
-    z-index: 999;
-    overflow-y: auto;
+    z-index: 1000000;
+    /*overflow-y: auto;*/
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
 }
 #mcw-cart-sidebar h1, h2, h3, h4, h5, h6 {
     margin: 0 !important;
@@ -47,6 +47,7 @@
 }
 /* mcw product styles */
 .mcw-header {
+    height: 8vh;
     position: relative;
     display: flex;
     justify-content: center;
@@ -65,6 +66,7 @@
 }
 
 .mcw-products {
+    height: 65vh;
     display: flex;
     flex-direction: column;
     gap: 4px;
@@ -108,18 +110,20 @@
 
 .mcw-quantity-minus,
 .mcw-quantity-plus {
-    height: 30px;
-    width: 30px;
+    height: 30px !important;
+    width: 30px !important;
     text-align: center;
     border: 1px solid;
     padding: 3px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    color: currentColor !important;
+    background: inherit !important;
 }
 
 .mcw-quantity-input {
-    height: 30px;
-    width: 30px;
+    height: 30px !important;
+    width: 30px !important;
     text-align: center;
     border: 1px solid !important;
     padding: 3px;
@@ -130,7 +134,7 @@
 
 .mcw-coupon {
     padding: 5px;
-    height: 60px;
+    /*height: 60px;*/
     display: flex;
     justify-content: center;
 }
@@ -139,7 +143,7 @@
     display: flex;
     flex-direction: column;
     gap: 4px;
-    padding: 4px;
+    padding: 10px;
 }
 
 .mcw-actions {
@@ -155,14 +159,18 @@
     filter: drop-shadow(2px 4px 6px);
 }
 
+@keyframes widget-container {
+    0%   {transform: rotate(0);}
+    35%  {transform: rotate(60deg);}
+    70%  {transform: rotate(-60deg);}
+    100% {transform: rotate(0);}
+}
+
+
+
 @media screen and (max-width: 480px) {
     #mcw-cart-sidebar {
         width: 100%;
-    }
-
-    .mcw-products {
-        height: 60vh !important;
-        padding-bottom: 60px;
     }
 
     .mcw-product {
@@ -170,6 +178,6 @@
     }
 
     .mcw-footer {
-        padding-bottom: 75px;
+        padding-bottom: 75px !important;
     }
 }

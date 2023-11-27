@@ -73,6 +73,7 @@ jQuery(function ($) {
                     if (response.data.cart_item_removed && response.data.sidebar_content != '') {
                         mcw_actions.update_fragments();
                         content.html(response.data.sidebar_content);
+                        prevent_double_loading = true;
                     }
                 },
                 complete: function () {

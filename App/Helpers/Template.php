@@ -43,6 +43,10 @@ class Template
             'show_cart_button_in_footer' => '',
             'cart_cta_text' => 'View cart',
             'style' => [
+                'widget' => [
+                    'background-color' => '#005c86',
+                    'color' => '#effbff',
+                ],
                 'header' => [
                     'font-size' => '32px',
                     'background-color' => '#005c86',
