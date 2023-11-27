@@ -122,6 +122,33 @@ if (empty($widget_data)) {
             <!--        styling-->
             <div class="tab-pane fade"  id="mcw-style" role="tabpanel" aria-labelledby="styling-tab" tabindex="0">
                 <div class="tab-content">
+                    <div id="style-widget">
+                        <h6><?php esc_html_e('Widget', 'mini-cart-woocommerce'); ?></h6>
+                        <div class="p-2 col-md-12">
+                            <div class="custom-control row mt-2">
+                                <div class="col-md-2">
+                                    <label class="custom-control-label font-weight-medium"><?php esc_html_e('background', 'mini-cart-woocommerce'); ?></label>
+                                </div>
+                                <div class="mcw-color-inputs col-md-4 d-flex">
+                                    <input class="mcw-color-picker form-control form-control-color" type="color">
+                                    <input type="text" class="mcw-color-input form-control w-50"  name="style[widget][background-color]" data-name="" data-target="" value="<?php echo esc_attr($widget_data['style']['widget']['background-color']); ?>"
+                                           maxlength="7" placeholder="">
+                                </div>
+                            </div>
+
+                            <div class="custom-control row mt-2">
+                                <div class="col-md-2">
+                                    <label class="custom-control-label font-weight-medium"><?php esc_html_e('color', 'mini-cart-woocommerce'); ?></label>
+                                </div>
+                                <div class="mcw-color-inputs col-md-4 d-flex">
+                                    <input class="mcw-color-picker form-control form-control-color" type="color">
+                                    <input type="text" class="mcw-color-input form-control w-50" name="style[widget][color]" data-name="" data-target="" value="<?php echo esc_attr($widget_data['style']['widget']['color']); ?>"
+                                           maxlength="7" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div id="style-header">
                         <h6><?php esc_html_e('Header', 'mini-cart-woocommerce'); ?></h6>
                         <div class="p-2 col-md-12">
@@ -189,7 +216,7 @@ if (empty($widget_data)) {
                                     <label class="custom-control-label font-weight-medium"><?php esc_html_e('background', 'mini-cart-woocommerce'); ?></label>
                                 </div>
                                 <div class="mcw-color-inputs col-md-4 d-flex">
-                                    <input class="mcw-color-picker form-control form-control-color" type="color" value="">
+                                    <input class="mcw-color-picker form-control form-control-color" type="color">
                                     <input type="text" class="mcw-color-input form-control w-50" name="style[body][background-color]" data-name="" data-target="" value="<?php echo esc_attr($widget_data['style']['body']['background-color']); ?>"
                                            maxlength="7" placeholder="">
                                 </div>
@@ -232,7 +259,7 @@ if (empty($widget_data)) {
                                     <label class="custom-control-label font-weight-medium"><?php esc_html_e('background', 'mini-cart-woocommerce'); ?></label>
                                 </div>
                                 <div class="mcw-color-inputs col-md-4 d-flex">
-                                    <input class="mcw-color-picker form-control form-control-color" type="color" value="">
+                                    <input class="mcw-color-picker form-control form-control-color" type="color">
                                     <input type="text" class="mcw-color-input form-control w-50" name="style[coupon][background-color]" data-name="" data-target="" value="<?php echo esc_attr($widget_data['style']['coupon']['background-color']); ?>"
                                            maxlength="7" placeholder="">
                                 </div>
