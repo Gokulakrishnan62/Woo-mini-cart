@@ -2,8 +2,6 @@
 
 namespace MCW\App\Controllers;
 
-use MCW\App\Helpers\Database;
-use MCW\App\Helpers\Template;
 use MCW\App\Helpers\WC;
 
 defined('ABSPATH') || exit;
@@ -96,12 +94,12 @@ class Ajax
      */
     private static function saveOption()
     {
-        $option = self::request('option', 0, 'post');
+        $option = self::request('option', '', 'post');
         $key = self::request('key', '', 'post');
         parse_str($option, $data);
 
-        if (!empty($key)) {
-            return Database::set($key, $data);
+        if (!empty($key) && function_exists('update_option')) {
+            return update_option(sanitize_key($key), $data);
         }
         return false;
     }
@@ -117,9 +115,7 @@ class Ajax
         if (!empty($cart_item_key)) {
             return [
                 'cart_item_removed' => WC::removeCartItem($cart_item_key),
-                'sidebar_content' => Template::getHTML('Contents.php', [
-                    'data' => Database::get('settings', '' , true),
-                ]),
+                'sidebar_content' => Minicart::getTemplate(),
             ];
         }
         return ['status' => "error"];
@@ -149,9 +145,7 @@ class Ajax
             }
             return [
                 'is_quantity_set' => $is_quantity_set,
-                'sidebar_content' => Template::getHTML('Contents.php', [
-                    'data' => Database::get('settings', '' , true),
-                ]),
+                'sidebar_content' => Minicart::getTemplate(),
             ];
         }
         return ['status' => "error"];
@@ -164,9 +158,7 @@ class Ajax
      */
     private static function refreshMiniCart() {
         if (file_exists(MCW_PLUGIN_PATH . 'Template/Contents.php')) {
-            return Template::getHTML('Contents.php', [
-                'data' => Database::get('settings', '' , true),
-            ]);
+            return Minicart::getTemplate();
         }
         return false;
     }
@@ -181,15 +173,13 @@ class Ajax
         $coupon_code = sanitize_text_field(self::request('coupon_code', '', 'post'));
         if (!empty($coupon_code)) {
             $is_coupon_applied = WC::getCart()->apply_coupon($coupon_code);
-            WC()->cart->calculate_totals();
+            WC::refreshCartTotal();
             return [
                 'is_coupon_applied' => $is_coupon_applied,
-                'sidebar_content' => Template::getHTML('Contents.php', [
-                    'data' => Database::get('settings', '' , true),
-                ]),
+                'sidebar_content' => Minicart::getTemplate(),
             ];
         }
-        return [];
+        return ['status' => "error"];
     }
 
     /***
@@ -202,15 +192,13 @@ class Ajax
         $coupon_code = sanitize_text_field(self::request('coupon_code', '', 'post'));
         if (!empty($coupon_code)) {
             $is_coupon_removed = WC::getCart()->remove_coupon($coupon_code);
-            WC()->cart->calculate_totals();
+            WC::refreshCartTotal();
             return [
                 'is_coupon_removed' => $is_coupon_removed,
-                'sidebar_content' => Template::getHTML('Contents.php', [
-                    'data' => Database::get('settings', '' , true),
-                ]),
+                'sidebar_content' => Minicart::getTemplate(),
             ];
         }
-        return [];
+        return ['status' => "error"];
     }
 
     /**

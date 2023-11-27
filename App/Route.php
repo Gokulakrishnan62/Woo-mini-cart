@@ -4,6 +4,7 @@ namespace MCW\App;
 
 use MCW\App\Controllers\Ajax;
 use MCW\App\Controllers\Assets;
+use MCW\App\Controllers\Minicart;
 use MCW\App\Controllers\Page;
 
 defined('ABSPATH') || exit;
@@ -39,7 +40,7 @@ class Route
     public static function addStoreHooks()
     {
         add_action('wp_enqueue_scripts', [Assets::class, 'loadFrontendAssets']);
-        add_action('wp_footer',[Page::class, 'loadWidgetAndSidebar']);
+        add_action('wp_footer',[Minicart::class, 'loadWidgetAndSidebar']);
     }
 
     /***

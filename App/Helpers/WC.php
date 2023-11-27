@@ -33,22 +33,6 @@ class WC
         return null;
     }
 
-
-    /**
-     * Get cart item.
-     *
-     * @param string $key
-     * @return array
-     */
-    public static function getCartItem($key)
-    {
-        $cart = self::getCart();
-        if (is_object($cart) && method_exists($cart, 'get_cart_item')) {
-            return $cart->get_cart_item($key);
-        }
-        return [];
-    }
-
     /**
      * Remove cart item.
      *
@@ -81,18 +65,15 @@ class WC
         return false;
     }
 
-    /**
-     * Get formatted price html.
+    /***
+     * To refresh Cart total.
      *
-     * @param int $price
-     * @param array $args
-     * @return string
+     * @return void
      */
-    public static function formatPrice($price, $args = [])
+    public static function refreshCartTotal()
     {
-        if (function_exists('wc_price')) {
-            return wc_price($price, $args);
+        if (function_exists('calculate_totals')) {
+           WC()->cart->calculate_totals();
         }
-        return (string) $price;
     }
 }

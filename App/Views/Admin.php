@@ -2,7 +2,7 @@
 
 defined('ABSPATH') || exit;
 
-$widget_data =\MCW\App\Helpers\Database::get('settings');
+$widget_data = function_exists('get_option') ? get_option('mcw_settings') : '';
 
 if (empty($widget_data)) {
     $widget_data = \MCW\App\Helpers\Template::getDefaultData();
