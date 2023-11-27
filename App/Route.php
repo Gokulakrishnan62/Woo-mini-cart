@@ -16,6 +16,7 @@ class Route
     public static function init()
     {
         self::addGeneralHooks();
+
         if (is_admin()) {
             self::addAdminHooks();
         } else {

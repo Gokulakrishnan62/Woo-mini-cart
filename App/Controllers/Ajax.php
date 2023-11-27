@@ -118,7 +118,7 @@ class Ajax
             return [
                 'cart_item_removed' => WC::removeCartItem($cart_item_key),
                 'sidebar_content' => Template::getTemplateHTML('Contents.php', [
-                    'data' => Database::get('settings'),
+                    'data' => Database::get('settings', '' , true),
                 ]),
             ];
         }
@@ -150,7 +150,7 @@ class Ajax
             return [
                 'is_quantity_set' => $is_quantity_set,
                 'sidebar_content' => Template::getTemplateHTML('Contents.php', [
-                    'data' => Database::get('settings'),
+                    'data' => Database::get('settings', '' , true),
                 ]),
             ];
         }
@@ -165,7 +165,7 @@ class Ajax
     private static function refreshMiniCart() {
         if (file_exists(MCW_PLUGIN_PATH . 'Template/Contents.php')) {
             return Template::getTemplateHTML('Contents.php', [
-                'data' => Database::get('settings'),
+                'data' => Database::get('settings', '' , true),
             ]);
         }
         return false;
@@ -185,7 +185,7 @@ class Ajax
             return [
                 'is_coupon_applied' => $is_coupon_applied,
                 'sidebar_content' => Template::getTemplateHTML('Contents.php', [
-                    'data' => Database::get('settings'),
+                    'data' => Database::get('settings', '' , true),
                 ]),
             ];
         }
@@ -206,7 +206,7 @@ class Ajax
             return [
                 'is_coupon_removed' => $is_coupon_removed,
                 'sidebar_content' => Template::getTemplateHTML('Contents.php', [
-                    'data' => Database::get('settings'),
+                    'data' => Database::get('settings', '' , true),
                 ]),
             ];
         }

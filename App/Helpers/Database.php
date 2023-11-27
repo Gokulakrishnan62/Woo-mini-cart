@@ -27,13 +27,15 @@ class Database
     /**
      * Get config from options table.
      *
+     * if we get the styles from the table the $format format the styles.
+     *
      * @param string $key
      * @param mixed $default
      * @param bool $format
      *
      * @return mixed
      */
-    public static function get($key, $default = '', $format = true)
+    public static function get($key, $default = '', $format = false)
     {
         $key = sanitize_key($key);
         if (empty($key)) {
