@@ -1,7 +1,9 @@
 <?php
 defined('ABSPATH') || exit;
 
-isset($data) || exit;
+if (empty($data)) {
+    return;
+}
 $cart = WC()->cart;
 $applied_coupons = $cart->get_applied_coupons();
 ?>

@@ -13,7 +13,6 @@ class Assets
      */
     public static function loadAdminAssets()
     {
-        $current_url = admin_url('admin.php?page=mini-cart');
         $current_page = filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_URL);
 
         $admin_scripts = apply_filters('mcw_admin_scripts_data', [
@@ -23,15 +22,16 @@ class Assets
             ]
         );
 
-        if (strpos($current_url, $current_page) && file_exists(MCW_PLUGIN_PATH . 'Assets/js/admin.js') && file_exists(MCW_PLUGIN_PATH . 'Assets/css/admin.css')
-            && file_exists(MCW_PLUGIN_PATH . 'Assets/js/bootstrap.js') && file_exists(MCW_PLUGIN_PATH . 'Assets/css/bootstrap.css')) {
+        $plugin_url = plugin_dir_url(MCW_PLUGIN_FILE);
+
+        if (strpos($current_page, 'mini-cart')) {
             // load css and bootstrap
-            wp_enqueue_style('mcw_admin_css', plugin_dir_url(MCW_PLUGIN_FILE) . 'Assets/css/admin.css');
-            wp_enqueue_style('mcw_bootstrap_css', plugin_dir_url(MCW_PLUGIN_FILE) . 'Assets/css/bootstrap.css',);
+            wp_enqueue_style('mcw_admin_css', $plugin_url . 'Assets/css/admin.css');
+            wp_enqueue_style('mcw_bootstrap_css', $plugin_url . 'Assets/css/bootstrap.css',);
 
             // load scripts and bootstrap
-            wp_enqueue_script('mcw_bootstrap_script', plugin_dir_url(MCW_PLUGIN_FILE) . 'Assets/js/bootstrap.js', ['jquery'], null, true);
-            wp_enqueue_script('mcw_admin_script', plugin_dir_url(MCW_PLUGIN_FILE) . 'Assets/js/admin.js', ['jquery'], null, true);
+            wp_enqueue_script('mcw_bootstrap_script', $plugin_url . 'Assets/js/bootstrap.js', ['jquery'], null, true);
+            wp_enqueue_script('mcw_admin_script', $plugin_url . 'Assets/js/admin.js', ['jquery'], null, true);
             wp_localize_script('mcw_admin_script', 'mcw_admin_script_data', $admin_scripts);
         }
     }
@@ -50,13 +50,14 @@ class Assets
                 'has_checkout_block' => function_exists('has_block') && has_block('woocommerce/checkout'),
             ]
         );
-        if (file_exists(MCW_PLUGIN_PATH . 'Assets/js/frontend.js') && file_exists(MCW_PLUGIN_PATH . 'Assets/css/frontend.css')) {
-            // load css
-            wp_enqueue_style('mcw_frontend_css', plugin_dir_url(MCW_PLUGIN_FILE) . 'Assets/css/frontend.css');
 
-            // load scripts
-            wp_enqueue_script('mcw_frontend_script', plugin_dir_url(MCW_PLUGIN_FILE) . 'Assets/js/frontend.js', ['jquery'], null, true);
-            wp_localize_script('mcw_frontend_script', 'mcw_frontend_script_data', $frontend_scripts);
-        }
+        $plugin_url = plugin_dir_url(MCW_PLUGIN_FILE);
+
+        // load css
+        wp_enqueue_style('mcw_frontend_css', $plugin_url . 'Assets/css/frontend.css');
+
+        // load scripts
+        wp_enqueue_script('mcw_frontend_script', $plugin_url . 'Assets/js/frontend.js', ['jquery'], null, true);
+        wp_localize_script('mcw_frontend_script', 'mcw_frontend_script_data', $frontend_scripts);
     }
 }

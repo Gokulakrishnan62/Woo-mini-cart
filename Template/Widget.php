@@ -1,8 +1,9 @@
 <?php
 
 defined('ABSPATH') || exit;
-
-isset($data) || exit;
+if (empty($data)) {
+    return;
+}
 ?>
 <div class="widget-container" style="<?php echo esc_attr($data['style']['widget']);?> ">
     <div class="mcw-widget">
