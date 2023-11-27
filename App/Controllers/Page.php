@@ -46,7 +46,7 @@ class Page
      * @return void
      */
      public static function loadWidgetAndSidebar() {
-        echo Template::getTemplateHTML('Widget.php', [
+        echo Template::getHTML('Widget.php', [
             'data' => Database::get('settings', '' , true),
          ]);
     }

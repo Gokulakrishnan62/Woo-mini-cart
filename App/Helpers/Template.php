@@ -15,7 +15,7 @@ class Template
      * @param $print
      * @return false|string
      */
-    public static function getTemplateHTML($file, $params = [], $print = false)
+    public static function getHTML($file, $params = [], $print = false)
     {
         ob_start();
         extract($params);
