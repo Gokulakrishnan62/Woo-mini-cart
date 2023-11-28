@@ -83,7 +83,7 @@ jQuery(function ($) {
         },
 
         // to update Quantity.
-        quantity_update: function (product, content, action) {
+        update_item_quantity: function (product, content, action) {
             let cart_item_key = product.data('cart_item_key');
             let current_quantity = parseInt(product.find('.mcw-quantity-input').val());
             if (!cart_item_key) {
@@ -222,17 +222,17 @@ jQuery(function ($) {
 
     // to add quantity (add).
     $(document).on("click", '.mcw-products .mcw-product .mcw-quantity-container .mcw-quantity-plus' ,function(event) {
-        mcw_actions.quantity_update($(this).closest('.mcw-product'), $(this).closest('#mcw-cart-sidebar'), 'plus');
+        mcw_actions.update_item_quantity($(this).closest('.mcw-product'), $(this).closest('#mcw-cart-sidebar'), 'plus');
     });
 
     // to remove quantity (minus).
     $(document).on("click", '.mcw-products .mcw-product .mcw-quantity-container .mcw-quantity-minus' ,function() {
-        mcw_actions.quantity_update($(this).closest('.mcw-product'), $(this).closest('#mcw-cart-sidebar'), 'minus');
+        mcw_actions.update_item_quantity($(this).closest('.mcw-product'), $(this).closest('#mcw-cart-sidebar'), 'minus');
     });
 
     // preform action when change quantity by input.
     $(document).on("change", '.mcw-products .mcw-product .mcw-quantity-container .mcw-quantity-input' ,function() {
-        mcw_actions.quantity_update($(this).closest('.mcw-product'), $(this).closest('#mcw-cart-sidebar'), 'custom');
+        mcw_actions.update_item_quantity($(this).closest('.mcw-product'), $(this).closest('#mcw-cart-sidebar'), 'custom');
     });
 
     // to apply coupon

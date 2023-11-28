@@ -5,7 +5,6 @@ if (empty($data)) {
     return;
 }
 $cart = WC()->cart;
-$applied_coupons = $cart->get_applied_coupons();
 ?>
 
 <div class="mcw-header" style="height: 8vh; <?php echo esc_attr($data['style']['header']); ?>">
@@ -90,9 +89,9 @@ $applied_coupons = $cart->get_applied_coupons();
 <div style="width: 100%;">
     <?php if (!$cart->is_empty()) { ?>
         <div class="mcw-coupon" style="<?php echo esc_attr($data['style']['coupon']); ?>">
-            <?php if (!empty($applied_coupons)) { ?>
+            <?php if (!empty($cart->get_applied_coupons())) { ?>
                 <div id="mcw-coupon-list" style="padding-left: 20px; width: 100%;">
-                    <?php foreach ($applied_coupons as $applied_coupon) : ?>
+                    <?php foreach ($cart->get_applied_coupons() as $applied_coupon) : ?>
                         <div style="display: flex; margin: 5px 0; gap: 4px; align-items: center;">
                             <div type="text" id="mcw-coupon"  style="color: currentColor; background-color: inherit;"><?php echo esc_attr($applied_coupon); ?></div>
                             <span id="mcw-remove-coupon" data-coupon="<?php echo esc_attr($applied_coupon); ?>" style="color: red; cursor: pointer;">
@@ -132,7 +131,7 @@ $applied_coupons = $cart->get_applied_coupons();
             <span style="display: flex; gap: 6px; justify-content: space-between; padding: 0 10px;">
                 <?php esc_html_e('Subtotal', 'mini-cart-woocommerce');?> :<?php echo $cart->get_cart_subtotal(); ?>
             </span>
-            <?php if (!empty($applied_coupons)) { ?>
+            <?php if (!empty($cart->get_applied_coupons())) { ?>
                 <span style="display: flex; gap: 6px; justify-content: space-between; padding: 0 10px;">
                      <?php esc_html_e('Discount', 'mini-cart-woocommerce');?> :<?php echo wc_price($cart->get_cart_discount_total()); ?>
                 </span>
@@ -155,6 +154,5 @@ $applied_coupons = $cart->get_applied_coupons();
                 </a>
             <?php } ?>
         </div>
-
     </div>
 </div>

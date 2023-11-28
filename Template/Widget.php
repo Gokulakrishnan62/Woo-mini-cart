@@ -1,6 +1,7 @@
 <?php
 
 defined('ABSPATH') || exit;
+
 if (empty($data)) {
     return;
 }

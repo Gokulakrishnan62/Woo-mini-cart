@@ -13,7 +13,6 @@ class Assets
      */
     public static function loadAdminAssets()
     {
-        $current_page = filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_URL);
 
         $admin_scripts = apply_filters('mcw_admin_scripts_data', [
                 'ajax_url' => admin_url('admin-ajax.php'),
@@ -21,17 +20,17 @@ class Assets
                 'mcw_nonce' => wp_create_nonce('mcw_nonce'),
             ]
         );
-
+        $current_page = filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_URL);
         $plugin_url = plugin_dir_url(MCW_PLUGIN_FILE);
 
         if (strpos($current_page, 'mini-cart')) {
             // load css and bootstrap
-            wp_enqueue_style('mcw_admin_css', $plugin_url . 'Assets/css/admin.css');
-            wp_enqueue_style('mcw_bootstrap_css', $plugin_url . 'Assets/css/bootstrap.css',);
+            wp_enqueue_style('mcw_admin_css', $plugin_url . 'Assets/css/admin.css', [], MCW_VERSION);
+            wp_enqueue_style('mcw_bootstrap_css', $plugin_url . 'Assets/css/bootstrap.css', [], '5.3.2');
 
             // load scripts and bootstrap
-            wp_enqueue_script('mcw_bootstrap_script', $plugin_url . 'Assets/js/bootstrap.js', ['jquery'], null, true);
-            wp_enqueue_script('mcw_admin_script', $plugin_url . 'Assets/js/admin.js', ['jquery'], null, true);
+            wp_enqueue_script('mcw_bootstrap_script', $plugin_url . 'Assets/js/bootstrap.js', ['jquery'], '5.3.2');
+            wp_enqueue_script('mcw_admin_script', $plugin_url . 'Assets/js/admin.js', ['jquery'], MCW_VERSION);
             wp_localize_script('mcw_admin_script', 'mcw_admin_script_data', $admin_scripts);
         }
     }
@@ -50,14 +49,13 @@ class Assets
                 'has_checkout_block' => function_exists('has_block') && has_block('woocommerce/checkout'),
             ]
         );
-
         $plugin_url = plugin_dir_url(MCW_PLUGIN_FILE);
 
         // load css
-        wp_enqueue_style('mcw_frontend_css', $plugin_url . 'Assets/css/frontend.css');
+        wp_enqueue_style('mcw_frontend_css', $plugin_url . 'Assets/css/frontend.css', [], MCW_VERSION);
 
         // load scripts
-        wp_enqueue_script('mcw_frontend_script', $plugin_url . 'Assets/js/frontend.js', ['jquery'], null, true);
+        wp_enqueue_script('mcw_frontend_script', $plugin_url . 'Assets/js/frontend.js', ['jquery'], MCW_VERSION);
         wp_localize_script('mcw_frontend_script', 'mcw_frontend_script_data', $frontend_scripts);
     }
 }
