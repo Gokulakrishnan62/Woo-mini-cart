@@ -2,8 +2,6 @@
 
 namespace MCW\App\Controllers;
 
-use MCW\App\Helpers\WC;
-
 defined('ABSPATH') || exit;
 
 class Ajax
@@ -112,9 +110,10 @@ class Ajax
     private static function removeItemFromCart()
     {
         $cart_item_key = self::request('cart_item_key', '', 'post');
-        if (!empty($cart_item_key)) {
+        $cart = WC()->cart;
+        if (!empty($cart_item_key) && method_exists($cart, 'remove_cart_item') && is_object($cart)) {
             return [
-                'cart_item_removed' => WC::removeCartItem($cart_item_key),
+                'cart_item_removed' => $cart->remove_cart_item($cart_item_key),
                 'sidebar_content' => Minicart::getTemplate(),
             ];
         }
@@ -131,17 +130,19 @@ class Ajax
         $cart_item_key = self::request('cart_item_key', '', 'post');
         $current_quantity = self::request('current_quantity', '', 'post');
         $quantity_action = self::request('quantity_action', '', 'post');
+        $cart = WC()->cart;
 
-        if (!empty($cart_item_key) && !empty($quantity_action)) {
+        if (!empty($cart_item_key) && !empty($quantity_action) && method_exists($cart, 'remove_cart_item')
+                    && method_exists($cart, 'set_quantity') && is_object($cart)) {
             if (empty($current_quantity)) {
-                $is_quantity_set = WC::removeCartItem($cart_item_key);
+                $is_quantity_set = $cart->remove_cart_item($cart_item_key);
             } else {
                 if ($quantity_action == 'plus') {
                     $current_quantity += 1;
                 } elseif ($quantity_action == 'minus') {
                     $current_quantity -= 1;
                 }
-                $is_quantity_set = WC::setCartItemQty($cart_item_key, $current_quantity);
+                $is_quantity_set = $cart->set_quantity($cart_item_key, $current_quantity);
             }
             return [
                 'is_quantity_set' => $is_quantity_set,
@@ -157,7 +158,7 @@ class Ajax
      * @return false|string
      */
     private static function refreshMiniCart() {
-        if (file_exists(MCW_PLUGIN_PATH . 'Template/Contents.php')) {
+        if (file_exists(MCW_PLUGIN_PATH . 'template/Contents.php')) {
             return Minicart::getTemplate();
         }
         return false;
@@ -171,9 +172,11 @@ class Ajax
     private static function applyCoupon()
     {
         $coupon_code = sanitize_text_field(self::request('coupon_code', '', 'post'));
-        if (!empty($coupon_code)) {
-            $is_coupon_applied = WC::applyOrRemoveCoupon($coupon_code, 'apply');
-            WC::refreshCartTotal();
+        $cart = WC()->cart;
+        if (!empty($coupon_code) && method_exists($cart, 'apply_coupon')
+                && method_exists($cart, 'calculate_totals') && is_object($cart)) {
+            $is_coupon_applied = $cart->apply_coupon($coupon_code);
+            WC()->cart->calculate_totals();
             return [
                 'is_coupon_applied' => $is_coupon_applied,
                 'sidebar_content' => Minicart::getTemplate(),
@@ -190,9 +193,11 @@ class Ajax
     private static function removeCoupon()
     {
         $coupon_code = sanitize_text_field(self::request('coupon_code', '', 'post'));
-        if (!empty($coupon_code)) {
-            $is_coupon_removed = WC::applyOrRemoveCoupon($coupon_code, 'remove');
-            WC::refreshCartTotal();
+        $cart = WC()->cart;
+        if (!empty($coupon_code)&& method_exists($cart, 'remove_coupon')
+                && method_exists($cart, 'calculate_totals') && is_object($cart)) {
+            $is_coupon_removed = $cart->remove_coupon($coupon_code);
+            WC()->cart->calculate_totals();
             return [
                 'is_coupon_removed' => $is_coupon_removed,
                 'sidebar_content' => Minicart::getTemplate(),
