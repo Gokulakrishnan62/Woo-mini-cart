@@ -26,10 +26,10 @@ class Assets
         if (strpos($current_page, 'mini-cart')) {
             // load css and bootstrap
             wp_enqueue_style('mcw_admin_css', $plugin_url . 'assets/css/admin.css', [], MCW_VERSION);
-            wp_enqueue_style('mcw_bootstrap_css', $plugin_url . 'assets/css/bootstrap.css', [], '5.3.2');
+            wp_enqueue_style('mcw_bootstrap_css', $plugin_url . 'assets/css/bootstrap.min.css', [], '5.3.2');
 
             // load scripts and bootstrap
-            wp_enqueue_script('mcw_bootstrap_script', $plugin_url . 'assets/js/bootstrap.js', ['jquery'], '5.3.2');
+            wp_enqueue_script('mcw_bootstrap_script', $plugin_url . 'assets/js/bootstrap.min.js', ['jquery'], '5.3.2');
             wp_enqueue_script('mcw_admin_script', $plugin_url . 'assets/js/admin.js', ['jquery'], MCW_VERSION);
             wp_localize_script('mcw_admin_script', 'mcw_admin_script_data', $admin_scripts);
         }
