@@ -7,20 +7,6 @@ defined('ABSPATH') || exit;
 class WC
 {
     /**
-     * Get cart items.
-     *
-     * @return array
-     */
-    public static function getCartItems()
-    {
-        $cart = self::getCart();
-        if (is_object($cart) && method_exists($cart, 'get_cart_contents')) {
-            return $cart->get_cart_contents();
-        }
-        return [];
-    }
-
-    /**
      * Get cart object.
      *
      * @return \WC_Cart|null
@@ -75,5 +61,23 @@ class WC
         if (function_exists('calculate_totals')) {
            WC()->cart->calculate_totals();
         }
+    }
+
+    /***
+     * To apply or remove coupon.
+     *
+     * @param string $coupon_code
+     * @param string $action
+     */
+    public static function applyOrRemoveCoupon($coupon_code = '', $action = '')
+    {
+        if (!empty($coupon_code && !empty($action))) {
+            if ($action === 'apply') {
+                return self::getCart()->apply_coupon($coupon_code);
+            } elseif ($action === 'remove') {
+                return self::getCart()->remove_coupon($coupon_code);
+            }
+        }
+       return false;
     }
 }

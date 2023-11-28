@@ -25,12 +25,12 @@ class Assets
 
         if (strpos($current_page, 'mini-cart')) {
             // load css and bootstrap
-            wp_enqueue_style('mcw_admin_css', $plugin_url . 'Assets/css/admin.css', [], MCW_VERSION);
-            wp_enqueue_style('mcw_bootstrap_css', $plugin_url . 'Assets/css/bootstrap.css', [], '5.3.2');
+            wp_enqueue_style('mcw_admin_css', $plugin_url . 'assets/css/admin.css', [], MCW_VERSION);
+            wp_enqueue_style('mcw_bootstrap_css', $plugin_url . 'assets/css/bootstrap.css', [], '5.3.2');
 
             // load scripts and bootstrap
-            wp_enqueue_script('mcw_bootstrap_script', $plugin_url . 'Assets/js/bootstrap.js', ['jquery'], '5.3.2');
-            wp_enqueue_script('mcw_admin_script', $plugin_url . 'Assets/js/admin.js', ['jquery'], MCW_VERSION);
+            wp_enqueue_script('mcw_bootstrap_script', $plugin_url . 'assets/js/bootstrap.js', ['jquery'], '5.3.2');
+            wp_enqueue_script('mcw_admin_script', $plugin_url . 'assets/js/admin.js', ['jquery'], MCW_VERSION);
             wp_localize_script('mcw_admin_script', 'mcw_admin_script_data', $admin_scripts);
         }
     }
@@ -52,10 +52,10 @@ class Assets
         $plugin_url = plugin_dir_url(MCW_PLUGIN_FILE);
 
         // load css
-        wp_enqueue_style('mcw_frontend_css', $plugin_url . 'Assets/css/frontend.css', [], MCW_VERSION);
+        wp_enqueue_style('mcw_frontend_css', $plugin_url . 'assets/css/frontend.css', [], MCW_VERSION);
 
         // load scripts
-        wp_enqueue_script('mcw_frontend_script', $plugin_url . 'Assets/js/frontend.js', ['jquery'], MCW_VERSION);
+        wp_enqueue_script('mcw_frontend_script', $plugin_url . 'assets/js/frontend.js', ['jquery'], MCW_VERSION);
         wp_localize_script('mcw_frontend_script', 'mcw_frontend_script_data', $frontend_scripts);
     }
 }

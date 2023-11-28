@@ -172,7 +172,7 @@ class Ajax
     {
         $coupon_code = sanitize_text_field(self::request('coupon_code', '', 'post'));
         if (!empty($coupon_code)) {
-            $is_coupon_applied = WC::getCart()->apply_coupon($coupon_code);
+            $is_coupon_applied = WC::applyOrRemoveCoupon($coupon_code, 'apply');
             WC::refreshCartTotal();
             return [
                 'is_coupon_applied' => $is_coupon_applied,
@@ -191,7 +191,7 @@ class Ajax
     {
         $coupon_code = sanitize_text_field(self::request('coupon_code', '', 'post'));
         if (!empty($coupon_code)) {
-            $is_coupon_removed = WC::getCart()->remove_coupon($coupon_code);
+            $is_coupon_removed = WC::applyOrRemoveCoupon($coupon_code, 'remove');
             WC::refreshCartTotal();
             return [
                 'is_coupon_removed' => $is_coupon_removed,

@@ -19,7 +19,7 @@ class Template
     {
         ob_start();
         extract($params);
-        include MCW_PLUGIN_PATH . 'Template/' . $file;
+        include MCW_PLUGIN_PATH . 'template/' . $file;
 
         if ($print) {
             echo ob_get_clean();
