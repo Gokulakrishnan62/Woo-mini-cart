@@ -21,5 +21,5 @@ if (empty($data)) {
 </div>
 
 <div id="mcw-cart-sidebar" style="<?php echo esc_attr($data['style']['body']);?> ">
-    <?php include_once MCW_PLUGIN_PATH . 'Template/Contents.php'; ?>
+    <?php include_once MCW_PLUGIN_PATH . 'template/Contents.php'; ?>
 </div>
