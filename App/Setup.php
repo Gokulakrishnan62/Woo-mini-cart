@@ -3,6 +3,7 @@
 namespace MCW\App;
 
 use MCW\App\Helpers\Plugin;
+use MCW\App\Helpers\Template;
 
 defined('ABSPATH') || exit;
 
@@ -24,6 +25,9 @@ class Setup
     public static function activate()
     {
        Plugin::checkDependencies();
+       if (empty(get_option('mcw_settings'))) {
+           update_option('mcw_settings', Template::getDefaultData());
+       }
     }
 
     public static function deactivate()

@@ -64,7 +64,7 @@ jQuery(function ($) {
                     action: 'mcw_ajax',
                     method: 'remove_item_from_cart',
                     cart_item_key: cart_item_key,
-                    mcw_nonce: mcw_nonce || '',
+                    nonce: mcw_nonce || '',
                 },
                 beforeSend: function () {
                     mcw_spinner.show(content);
@@ -83,7 +83,7 @@ jQuery(function ($) {
         },
 
         // to update Quantity.
-        quantity_update: function (product, content, action) {
+        update_item_quantity: function (product, content, action) {
             let cart_item_key = product.data('cart_item_key');
             let current_quantity = parseInt(product.find('.mcw-quantity-input').val());
             if (!cart_item_key) {
@@ -100,7 +100,7 @@ jQuery(function ($) {
                         cart_item_key: cart_item_key,
                         current_quantity: current_quantity,
                         quantity_action: action,
-                        mcw_nonce: mcw_nonce || '',
+                        nonce: mcw_nonce || '',
                     },
                     beforeSend: function () {
                         mcw_spinner.show(content);
@@ -134,7 +134,7 @@ jQuery(function ($) {
                     action: 'mcw_ajax',
                     method: 'apply_coupon',
                     coupon_code: coupon_code,
-                    mcw_nonce: mcw_nonce || '',
+                    nonce: mcw_nonce || '',
                 },
                 beforeSend: function () {
                     mcw_spinner.show(content);
@@ -166,7 +166,7 @@ jQuery(function ($) {
                     action: 'mcw_ajax',
                     method: 'remove_coupon',
                     coupon_code: coupon_code,
-                    mcw_nonce: mcw_nonce || '',
+                    nonce: mcw_nonce || '',
                 },
                 beforeSend: function () {
                     mcw_spinner.show(content);
@@ -198,7 +198,7 @@ jQuery(function ($) {
                 data: {
                     action: 'mcw_ajax',
                     method: 'refresh_mini_cart',
-                    mcw_nonce: mcw_nonce || '',
+                    nonce: mcw_nonce || '',
                 },
                 beforeSend: function () {
                     mcw_spinner.show(content);
@@ -222,17 +222,17 @@ jQuery(function ($) {
 
     // to add quantity (add).
     $(document).on("click", '.mcw-products .mcw-product .mcw-quantity-container .mcw-quantity-plus' ,function(event) {
-        mcw_actions.quantity_update($(this).closest('.mcw-product'), $(this).closest('#mcw-cart-sidebar'), 'plus');
+        mcw_actions.update_item_quantity($(this).closest('.mcw-product'), $(this).closest('#mcw-cart-sidebar'), 'plus');
     });
 
     // to remove quantity (minus).
     $(document).on("click", '.mcw-products .mcw-product .mcw-quantity-container .mcw-quantity-minus' ,function() {
-        mcw_actions.quantity_update($(this).closest('.mcw-product'), $(this).closest('#mcw-cart-sidebar'), 'minus');
+        mcw_actions.update_item_quantity($(this).closest('.mcw-product'), $(this).closest('#mcw-cart-sidebar'), 'minus');
     });
 
     // preform action when change quantity by input.
     $(document).on("change", '.mcw-products .mcw-product .mcw-quantity-container .mcw-quantity-input' ,function() {
-        mcw_actions.quantity_update($(this).closest('.mcw-product'), $(this).closest('#mcw-cart-sidebar'), 'custom');
+        mcw_actions.update_item_quantity($(this).closest('.mcw-product'), $(this).closest('#mcw-cart-sidebar'), 'custom');
     });
 
     // to apply coupon
@@ -293,5 +293,9 @@ jQuery(function ($) {
     $(document).on("click", '.widget-container, #mcw-close-cart', function() {
         const sidebar = $('#mcw-cart-sidebar');
         sidebar.css('left', sidebar.css('left') === '0px' ? '-1000px' : '0px');
+    });
+
+    $(document.body).on('wc_fragments_refreshed', function(event, fragments, cart_hash, button) {
+        mcw_actions.refresh_mini_cart($("#mcw-cart-sidebar"));
     });
 });

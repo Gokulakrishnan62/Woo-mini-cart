@@ -13,8 +13,6 @@ class Assets
      */
     public static function loadAdminAssets()
     {
-        $current_url = admin_url('admin.php?page=mini-cart');
-        $current_page = filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_URL);
 
         $admin_scripts = apply_filters('mcw_admin_scripts_data', [
                 'ajax_url' => admin_url('admin-ajax.php'),
@@ -22,16 +20,17 @@ class Assets
                 'mcw_nonce' => wp_create_nonce('mcw_nonce'),
             ]
         );
+        $current_page = filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_URL);
+        $plugin_url = plugin_dir_url(MCW_PLUGIN_FILE);
 
-        if (strpos($current_url, $current_page) && file_exists(MCW_PLUGIN_PATH . 'Assets/js/admin.js') && file_exists(MCW_PLUGIN_PATH . 'Assets/css/admin.css')
-            && file_exists(MCW_PLUGIN_PATH . 'Assets/js/bootstrap.js') && file_exists(MCW_PLUGIN_PATH . 'Assets/css/bootstrap.css')) {
+        if (strpos($current_page, 'mini-cart')) {
             // load css and bootstrap
-            wp_enqueue_style('mcw_admin_css', plugin_dir_url(MCW_PLUGIN_FILE) . 'Assets/css/admin.css');
-            wp_enqueue_style('mcw_bootstrap_css', plugin_dir_url(MCW_PLUGIN_FILE) . 'Assets/css/bootstrap.css',);
+            wp_enqueue_style('mcw_admin_css', $plugin_url . 'assets/css/admin.css', [], MCW_VERSION);
+            wp_enqueue_style('mcw_bootstrap_css', $plugin_url . 'assets/css/bootstrap.min.css', [], '5.3.2');
 
             // load scripts and bootstrap
-            wp_enqueue_script('mcw_bootstrap_script', plugin_dir_url(MCW_PLUGIN_FILE) . 'Assets/js/bootstrap.js', ['jquery'], null, true);
-            wp_enqueue_script('mcw_admin_script', plugin_dir_url(MCW_PLUGIN_FILE) . 'Assets/js/admin.js', ['jquery'], null, true);
+            wp_enqueue_script('mcw_bootstrap_script', $plugin_url . 'assets/js/bootstrap.min.js', ['jquery'], '5.3.2');
+            wp_enqueue_script('mcw_admin_script', $plugin_url . 'assets/js/admin.js', ['jquery'], MCW_VERSION);
             wp_localize_script('mcw_admin_script', 'mcw_admin_script_data', $admin_scripts);
         }
     }
@@ -50,13 +49,13 @@ class Assets
                 'has_checkout_block' => function_exists('has_block') && has_block('woocommerce/checkout'),
             ]
         );
-        if (file_exists(MCW_PLUGIN_PATH . 'Assets/js/frontend.js') && file_exists(MCW_PLUGIN_PATH . 'Assets/css/frontend.css')) {
-            // load css
-            wp_enqueue_style('mcw_frontend_css', plugin_dir_url(MCW_PLUGIN_FILE) . 'Assets/css/frontend.css');
+        $plugin_url = plugin_dir_url(MCW_PLUGIN_FILE);
 
-            // load scripts
-            wp_enqueue_script('mcw_frontend_script', plugin_dir_url(MCW_PLUGIN_FILE) . 'Assets/js/frontend.js', ['jquery'], null, true);
-            wp_localize_script('mcw_frontend_script', 'mcw_frontend_script_data', $frontend_scripts);
-        }
+        // load css
+        wp_enqueue_style('mcw_frontend_css', $plugin_url . 'assets/css/frontend.css', [], MCW_VERSION);
+
+        // load scripts
+        wp_enqueue_script('mcw_frontend_script', $plugin_url . 'assets/js/frontend.js', ['jquery'], MCW_VERSION);
+        wp_localize_script('mcw_frontend_script', 'mcw_frontend_script_data', $frontend_scripts);
     }
 }

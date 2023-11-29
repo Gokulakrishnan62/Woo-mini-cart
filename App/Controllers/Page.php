@@ -2,9 +2,6 @@
 
 namespace MCW\App\Controllers;
 
-use MCW\App\Helpers\Database;
-use MCW\App\Helpers\Template;
-
 defined('ABSPATH') || exit;
 
 class Page
@@ -38,16 +35,5 @@ class Page
         if (file_exists(MCW_PLUGIN_PATH . '/App/Views/Admin.php')) {
             include MCW_PLUGIN_PATH . '/App/Views/Admin.php';
         }
-    }
-
-    /***
-     * To load Widget and mini cart.
-     *
-     * @return void
-     */
-     public static function loadWidgetAndSidebar() {
-        echo Template::getTemplateHTML('Widget.php', [
-            'data' => Database::get('settings', '' , true),
-         ]);
     }
 }

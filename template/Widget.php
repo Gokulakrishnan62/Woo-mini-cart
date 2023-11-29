@@ -2,7 +2,9 @@
 
 defined('ABSPATH') || exit;
 
-isset($data) || exit;
+if (empty($data)) {
+    return;
+}
 ?>
 <div class="widget-container" style="<?php echo esc_attr($data['style']['widget']);?> ">
     <div class="mcw-widget">
@@ -19,5 +21,5 @@ isset($data) || exit;
 </div>
 
 <div id="mcw-cart-sidebar" style="<?php echo esc_attr($data['style']['body']);?> ">
-    <?php include_once MCW_PLUGIN_PATH . 'Template/Contents.php'; ?>
+    <?php include_once MCW_PLUGIN_PATH . 'template/Contents.php'; ?>
 </div>

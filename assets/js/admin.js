@@ -15,9 +15,9 @@ jQuery(function ($) {
                 data: {
                     action: 'mcw_ajax',
                     method: 'save_option',
+                    key: 'mcw_settings',
                     option: $('#mcw-show-widget').serialize(),
-                    key: 'settings',
-                    mcw_nonce: mcw_nonce || '',
+                    nonce: mcw_nonce || '',
                 },
                 success: function (response) {
                     location.reload(true);

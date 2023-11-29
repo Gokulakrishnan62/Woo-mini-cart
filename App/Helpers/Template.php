@@ -15,11 +15,11 @@ class Template
      * @param $print
      * @return false|string
      */
-    public static function getTemplateHTML($file, $params = [], $print = false)
+    public static function getHTML($file, $params = [], $print = false)
     {
         ob_start();
         extract($params);
-        include MCW_PLUGIN_PATH . 'Template/' . $file;
+        include MCW_PLUGIN_PATH . 'template/' . $file;
 
         if ($print) {
             echo ob_get_clean();
