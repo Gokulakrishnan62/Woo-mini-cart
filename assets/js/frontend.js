@@ -6,9 +6,6 @@ jQuery(function ($) {
     let mcw_has_cart_block = (mcw_frontend_script_data.has_cart_block == '1');
     let mcw_has_checkout_block = (mcw_frontend_script_data.has_checkout_block == '1');
 
-    // to prevent double loading
-    let prevent_double_loading =  false;
-
     window.mcw_spinner = {
         // show spinner
         show: function (section) {
@@ -73,7 +70,6 @@ jQuery(function ($) {
                     if (response.data.cart_item_removed && response.data.sidebar_content != '') {
                         mcw_actions.update_fragments();
                         content.html(response.data.sidebar_content);
-                        prevent_double_loading = true;
                     }
                 },
                 complete: function () {
@@ -109,7 +105,6 @@ jQuery(function ($) {
                         if (response.data.is_quantity_set && response.data.sidebar_content != '') {
                             mcw_actions.update_fragments();
                             content.html(response.data.sidebar_content);
-                            prevent_double_loading = true;
                         }
                     },
                     complete: function () {
@@ -143,7 +138,6 @@ jQuery(function ($) {
                     if (response.data.is_coupon_applied && response.data.sidebar_content != '') {
                         mcw_actions.update_fragments();
                         content.html(response.data.sidebar_content);
-                        prevent_double_loading = true;
                     }
                 },
                 complete: function () {
@@ -176,7 +170,6 @@ jQuery(function ($) {
                         if (response.data.is_coupon_removed && response.data.sidebar_content != '') {
                             mcw_actions.update_fragments();
                             content.html(response.data.sidebar_content);
-                            prevent_double_loading = prevent_double_loading ? false : true;
                         }
                     }
                 },
@@ -247,9 +240,8 @@ jQuery(function ($) {
 
     // display add coupon filed
     $(document).on("click", '#mcw-cart-sidebar #mcw-add-coupon' ,function() {
-        $("#mcw-add-coupon-field").toggle();
+        $("#mcw-add-coupon-field").slideToggle(300);
         $(".mcw-coupon-option").toggle();
-        $("#mcw-coupon-list").toggle();
     });
 
     // to refresh mini-cart when product added.
@@ -261,32 +253,12 @@ jQuery(function ($) {
 
     // to refresh mini-cart when cart updated.
     $(document.body).on('updated_cart_totals', function() {
-
-        // check for prevent double loading
-        let when_update_by_ajax = prevent_double_loading ? false : true;
-        let when_update_by_cart = prevent_double_loading ? true : false;
-
-        if (when_update_by_ajax && !when_update_by_cart) {
-            mcw_actions.refresh_mini_cart($("#mcw-cart-sidebar"));
-        }
-
-        // reset the double loading
-        prevent_double_loading = false;
+        mcw_actions.refresh_mini_cart($("#mcw-cart-sidebar"));
     });
 
     // to refresh mini-cart when checkout page updated.
     $(document.body).on('updated_checkout', function() {
-
-        // check for prevent double loading
-        let when_update_by_ajax = prevent_double_loading ? false : true;
-        let when_update_by_cart = prevent_double_loading ? true : false;
-
-        if (when_update_by_ajax && !when_update_by_cart) {
-            mcw_actions.refresh_mini_cart($("#mcw-cart-sidebar"));
-        }
-
-        // reset the double loading
-        prevent_double_loading = false;
+        mcw_actions.refresh_mini_cart($("#mcw-cart-sidebar"));
     });
 
     // to toggle sidebar
@@ -295,7 +267,8 @@ jQuery(function ($) {
         sidebar.css('left', sidebar.css('left') === '0px' ? '-1000px' : '0px');
     });
 
-    $(document.body).on('wc_fragments_refreshed', function(event, fragments, cart_hash, button) {
-        mcw_actions.refresh_mini_cart($("#mcw-cart-sidebar"));
-    });
+    // to refresh cart in fragments
+    // $(document.body).on('wc_fragments_refreshed', function(event, fragments, cart_hash, button) {
+    //     mcw_actions.refresh_mini_cart($("#mcw-cart-sidebar"));
+    // });
 });

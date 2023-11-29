@@ -21,7 +21,7 @@ if (empty($widget_data)) {
     </ul>
     <form id="mcw-show-widget" method="POST" enctype="multipart/form-data">
         <div class="tab-content" id="pills-tabContent">
-            <!--        customization-->
+            <!-- customization -->
             <div class="tab-pane fade show active" id="mcw-customize" role="tabpanel" aria-labelledby="customize-tab" tabindex="0">
                 <div id="content-header">
                     <h6><?php esc_html_e('Header', 'mini-cart-woocommerce'); ?></h6>
@@ -31,7 +31,7 @@ if (empty($widget_data)) {
                                 <label class="custom-control-label font-weight-medium"><?php esc_html_e('Show icon', 'mini-cart-woocommerce'); ?></label>
                             </div>
                             <div class="col-md-4">
-                                <input class="custom-control-input" type="checkbox" name="show_icon_in_header" value="1" <?php if (!empty($widget_data['show_icon_in_header'])) echo 'checked'; ?>>
+                                <input class="custom-control-input" type="checkbox" name="data[header][icon][show]" value="1" <?php if (!empty($widget_data['data']['header']['icon']['show'])) echo 'checked'; ?>>
                             </div>
                         </div>
                         <div class="custom-control custom-input row mt-2">
@@ -39,22 +39,22 @@ if (empty($widget_data)) {
                                 <label class="form-label font-weight-medium"><?php esc_html_e('Cart title', 'mini-cart-woocommerce'); ?></label>
                             </div>
                             <div class="col-md-4">
-                                <input class="custom-control-input" type="text" name="header_title" value="<?php echo esc_attr($widget_data['header_title']); ?>"/>
+                                <input class="custom-control-input" type="text" name="data[header][title]" value="<?php echo esc_attr($widget_data['data']['header']['title']); ?>"/>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="form-separator mt-2"></div>
 
-                <div id="content-body">
-                    <h6><?php esc_html_e('Body', 'mini-cart-woocommerce'); ?></h6>
+                <div id="content-items">
+                    <h6><?php esc_html_e('Items', 'mini-cart-woocommerce'); ?></h6>
                     <div class="p-2 col-md-12">
                         <div class="custom-control custom-checkbox row">
                             <div class="col-md-2">
                                 <label class="custom-control-label font-weight-medium"><?php esc_html_e('Show delete icon', 'mini-cart-woocommerce'); ?></label>
                             </div>
                             <div class="col-md-4">
-                                <input class="custom-control-input" type="checkbox" name="show_remove_item_option" value="1" <?php if (!empty($widget_data['show_remove_item_option'])) echo 'checked'; ?>>
+                                <input class="custom-control-input" type="checkbox" name="data[items][item][show_remove_option]" value="1" <?php if (!empty($widget_data['data']['items']['item']['show_remove_option'])) echo 'checked'; ?>>
                             </div>
                         </div>
                         <div class="custom-control row mt-2">
@@ -62,9 +62,9 @@ if (empty($widget_data)) {
                                 <label class="custom-control-label font-weight-medium"><?php esc_html_e('Product Price', 'mini-cart-woocommerce'); ?></label>
                             </div>
                             <div class="col-md-4">
-                                <select class="form-select" name="product_price_format">
-                                    <option value="actual_price" <?php selected('actual_price', $widget_data['product_price_format']); ?>><?php esc_html_e('Show actual price', 'mini-cart-woocommerce'); ?></option>
-                                    <option value="regular_and_sale_price" <?php selected('regular_and_sale_price', $widget_data['product_price_format']); ?>><?php esc_html_e('Show regular and sale price', 'mini-cart-woocommerce'); ?></option>
+                                <select class="form-select" name="data[items][item][price_format]">
+                                    <option value="actual_price" <?php selected('actual_price', $widget_data['data']['items']['item']['price_format']); ?>><?php esc_html_e('Show actual price', 'mini-cart-woocommerce'); ?></option>
+                                    <option value="regular_and_sale_price" <?php selected('regular_and_sale_price', $widget_data['data']['items']['item']['price_format']); ?>><?php esc_html_e('Show regular and sale price', 'mini-cart-woocommerce'); ?></option>
                                 </select>
                             </div>
                         </div>
@@ -72,54 +72,96 @@ if (empty($widget_data)) {
                 </div>
                 <div class="form-separator mt-2"></div>
 
-                <div id="content-footer">
-                    <h6><?php esc_html_e('Footer', 'mini-cart-woocommerce'); ?></h6>
+                <div id="content-coupon">
+                    <h6><?php esc_html_e('Coupon', 'mini-cart-woocommerce'); ?></h6>
                     <div class="p-2 col-md-12">
-                        <div>
-                            <div class="row">
-                                <div class="custom-control custom-input row">
-                                    <div class="col-md-2">
-                                        <label class="form-label font-weight-medium"><?php esc_html_e('Checkout cta', 'mini-cart-woocommerce'); ?></label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <input class="custom-control-input" type="text" name="checkout_cta_text" value="<?php echo esc_attr($widget_data['checkout_cta_text']); ?>"/>
+                        <div class="custom-control row mt-2">
+                            <div class="col-md-2">
+                                <label class="custom-control-label font-weight-medium"><?php esc_html_e('Prefix', 'mini-cart-woocommerce'); ?></label>
+                            </div>
+                            <div class="col-md-4">
+                                <input class="custom-control-input" type="text" name="data[coupons][coupon][sub_title]" value="<?php echo esc_attr($widget_data['data']['coupons']['coupon']['sub_title']); ?>"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-separator mt-2"></div>
+
+                <div id="content-actions">
+                    <h6><?php esc_html_e('Actions', 'mini-cart-woocommerce'); ?></h6>
+                    <div class="p-2 col-md-12">
+                        <div class="row mt-2 d-flex" style="height: 50px;">
+                            <div class="custom-control custom-checkbox row">
+                                <div class="col-md-2">
+                                    <label class="custom-control-label font-weight-medium"><?php esc_html_e('Show Checkout button', 'mini-cart-woocommerce'); ?></label>
+                                </div>
+                                <div class="col-md-4 d-flex align-items-center gap-2 mcw-show-action">
+                                    <input class="mcw-show-button custom-control custom-switch" type="checkbox" name="data[actions][checkout][enabled]" value="1" <?php if (!empty($widget_data['data']['actions']['checkout']['enabled'])) echo 'checked'; ?>>
+                                    <div class="mcw-show-button-details custom-control custom-input row" style="<?php if (empty($widget_data['data']['actions']['checkout']['enabled'])) echo 'display: none'; ?>" >
+                                        <div class="col-md-12">
+                                            <input class="custom-control-input" type="text" name="data[actions][checkout][cta]" value="<?php echo esc_attr($widget_data['data']['actions']['checkout']['cta']); ?>" placeholder="<?php esc_html_e('enter cta', 'mini-cart-woocommerce'); ?>"/>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row mt-2">
-                                <div class="custom-control custom-input row mt-2">
-                                    <div class="col-md-2">
-                                        <label class="form-label"><?php esc_html_e('Continue cta', 'mini-cart-woocommerce'); ?></label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <input class="custom-control-input" type="text" name="continue_cta_text" value="<?php echo esc_attr($widget_data['continue_cta_text']); ?>"/>
+                        </div>
+                        <div class="row mt-2 d-flex" style="height: 50px;">
+                            <div class="custom-control custom-checkbox row">
+                                <div class="col-md-2">
+                                    <label class="custom-control-label font-weight-medium"><?php esc_html_e('Show Cart button', 'mini-cart-woocommerce'); ?></label>
+                                </div>
+                                <div class="col-md-4 d-flex align-items-center gap-2 mcw-show-action">
+                                    <input class="mcw-show-button custom-control custom-switch" type="checkbox" name="data[actions][cart][enabled]" value="1" <?php if (!empty($widget_data['data']['actions']['cart']['enabled'])) echo 'checked'; ?>>
+                                    <div class="mcw-show-button-details custom-control custom-input row" style="<?php if (empty($widget_data['data']['actions']['cart']['enabled'])) echo 'display: none'; ?>" >
+                                        <div class="col-md-4">
+                                            <input class="custom-control-input" type="text" name="data[actions][cart][cta]" value="<?php echo esc_attr($widget_data['data']['actions']['cart']['cta']); ?>" placeholder="<?php esc_html_e('enter cta', 'mini-cart-woocommerce'); ?>"/>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row mt-2">
-                                <div class="custom-control custom-checkbox row">
-                                    <div class="col-md-2">
-                                        <label class="custom-control-label font-weight-medium"><?php esc_html_e('Show cart button', 'mini-cart-woocommerce'); ?></label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <input class="mcw-show-cart-button custom-control custom-switch" type="checkbox" name="show_cart_button_in_footer" value="1" <?php if (!empty($widget_data['show_cart_button_in_footer'])) echo 'checked'; ?>>
-                                    </div>
+                        </div>
+                        <div class="row mt-2 d-flex" style="height: 50px;">
+                            <div class="custom-control custom-checkbox row">
+                                <div class="col-md-2">
+                                    <label class="custom-control-label font-weight-medium"><?php esc_html_e('Show Shop button', 'mini-cart-woocommerce'); ?></label>
                                 </div>
-                                <div class="mcw-cart-button-cta custom-control custom-input row mt-2" style="<?php if (empty($widget_data['show_cart_button_in_footer'])) echo 'display: none'; ?>" >
-                                    <div class="col-md-2">
-                                        <label class="form-label font-weight-medium"><?php esc_html_e('Cart cta', 'mini-cart-woocommerce'); ?></label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <input class="custom-control-input" type="text" name="cart_cta_text" value="<?php echo esc_attr($widget_data['cart_cta_text']); ?>"/>
+                                <div class="col-md-6 d-flex align-items-center gap-2 mcw-show-action">
+                                    <input class="mcw-show-button custom-control custom-switch" type="checkbox" name="data[actions][shop][enabled]" value="1" <?php if (!empty($widget_data['data']['actions']['shop']['enabled'])) echo 'checked'; ?>>
+                                    <div class="mcw-show-button-details custom-control custom-input row" style="<?php if (empty($widget_data['data']['actions']['shop']['enabled'])) echo 'display: none'; ?>" >
+                                        <div class="col-md-4">
+                                            <input class="custom-control-input" type="text" name="data[actions][shop][cta]" value="<?php echo esc_attr($widget_data['data']['actions']['shop']['cta']); ?>" placeholder="<?php esc_html_e('enter cta', 'mini-cart-woocommerce'); ?>"/>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <div id="content-footer">
+                    <h6><?php esc_html_e('Footer', 'mini-cart-woocommerce'); ?></h6>
+                    <div class="p-2 col-md-12">
+                        <div class="custom-control custom-checkbox row">
+                            <div class="col-md-2">
+                                <label class="custom-control-label font-weight-medium"><?php esc_html_e('Show discount amount', 'mini-cart-woocommerce'); ?></label>
+                            </div>
+                            <div class="col-md-4">
+                                <input class="custom-control-input" type="checkbox" name="data[footer][show][discount]" value="1" <?php if (!empty($widget_data['data']['footer']['show']['discount'])) echo 'checked'; ?>>
+                            </div>
+                        </div>
+                        <div class="custom-control custom-checkbox row mt-2">
+                            <div class="col-md-2">
+                                <label class="custom-control-label font-weight-medium"><?php esc_html_e('Show total amount', 'mini-cart-woocommerce'); ?></label>
+                            </div>
+                            <div class="col-md-4">
+                                <input class="custom-control-input" type="checkbox" name="data[footer][show][total]" value="1" <?php if (!empty($widget_data['data']['footer']['show']['total'])) echo 'checked'; ?>>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <!--        styling-->
+            <!-- styling -->
             <div class="tab-pane fade"  id="mcw-style" role="tabpanel" aria-labelledby="styling-tab" tabindex="0">
                 <div class="tab-content">
                     <div id="style-widget">
@@ -159,8 +201,6 @@ if (empty($widget_data)) {
                                 <div class="col-md-4">
                                     <select class="form-select" name="style[header][font-size]">
                                         <option value="32px" <?php selected('32px', $widget_data['style']['header']['font-size']); ?>>default</option>
-                                        <option value="4px" <?php selected('4px', $widget_data['style']['header']['font-size']); ?>>4px</option>
-                                        <option value="8px" <?php selected('8px', $widget_data['style']['header']['font-size']); ?>>8px</option>
                                         <option value="12px" <?php selected('12px', $widget_data['style']['header']['font-size']); ?>>12px</option>
                                         <option value="16px" <?php selected('16px', $widget_data['style']['header']['font-size']); ?>>16px</option>
                                         <option value="24px" <?php selected('24px', $widget_data['style']['header']['font-size']); ?>>24px</option>
@@ -201,11 +241,9 @@ if (empty($widget_data)) {
                                 </div>
                                 <div class="col-md-4">
                                     <select class="form-select" name="style[body][font-size]">
-                                        <option value="" <?php selected('', $widget_data['style']['body']['font-size']); ?>>default</option>
-                                        <option value="4px" <?php selected('4px', $widget_data['style']['body']['font-size']); ?>>4px</option>
-                                        <option value="8px" <?php selected('8px', $widget_data['style']['body']['font-size']); ?>>8px</option>
+                                        <option value="16px" <?php selected('16px', $widget_data['style']['body']['font-size']); ?>>default</option>
                                         <option value="12px" <?php selected('12px', $widget_data['style']['body']['font-size']); ?>>12px</option>
-                                        <option value="16px" <?php selected('16px', $widget_data['style']['body']['font-size']); ?>>16px</option>
+                                        <option value="18px" <?php selected('18px', $widget_data['style']['body']['font-size']); ?>>16px</option>
                                         <option value="24px" <?php selected('24px', $widget_data['style']['body']['font-size']); ?>>24px</option>
                                     </select>
                                 </div>
@@ -244,11 +282,9 @@ if (empty($widget_data)) {
                                 </div>
                                 <div class="col-md-4">
                                     <select class="form-select" name="style[coupon][font-size]">
-                                        <option value="" <?php selected('', $widget_data['style']['coupon']['font-size']); ?>>default</option>
-                                        <option value="4px" <?php selected('4px', $widget_data['style']['coupon']['font-size']); ?>>4px</option>
-                                        <option value="8px" <?php selected('8px', $widget_data['style']['coupon']['font-size']); ?>>8px</option>
+                                        <option value="16px" <?php selected('16px', $widget_data['style']['coupon']['font-size']); ?>>default</option>
                                         <option value="12px" <?php selected('12px', $widget_data['style']['coupon']['font-size']); ?>>12px</option>
-                                        <option value="16px" <?php selected('16px', $widget_data['style']['coupon']['font-size']); ?>>16px</option>
+                                        <option value="18px" <?php selected('18px', $widget_data['style']['coupon']['font-size']); ?>>16px</option>
                                         <option value="24px" <?php selected('24px', $widget_data['style']['coupon']['font-size']); ?>>24px</option>
                                     </select>
                                 </div>
@@ -288,8 +324,6 @@ if (empty($widget_data)) {
                                 <div class="col-md-4">
                                     <select class="form-select" name="style[footer][font-size]">
                                         <option value="24px" <?php selected('24px', $widget_data['style']['footer']['font-size']); ?>>default</option>
-                                        <option value="4px" <?php selected('4px', $widget_data['style']['footer']['font-size']); ?>>4px</option>
-                                        <option value="8px" <?php selected('8px', $widget_data['style']['footer']['font-size']); ?>>8px</option>
                                         <option value="12px" <?php selected('12px', $widget_data['style']['footer']['font-size']); ?>>12px</option>
                                         <option value="16px" <?php selected('16px', $widget_data['style']['footer']['font-size']); ?>>16px</option>
                                         <option value="18px" <?php selected('18px', $widget_data['style']['footer']['font-size']); ?>>18px</option>
@@ -331,8 +365,6 @@ if (empty($widget_data)) {
                                 <div class="col-md-4">
                                     <select class="form-select" name="style[action][font-size]">
                                         <option value="16px" <?php selected('16px', $widget_data['style']['action']['font-size']); ?>>default</option>
-                                        <option value="4px" <?php selected('4px', $widget_data['style']['action']['font-size']); ?>>4px</option>
-                                        <option value="8px" <?php selected('8px', $widget_data['style']['action']['font-size']); ?>>8px</option>
                                         <option value="12px" <?php selected('12px', $widget_data['style']['action']['font-size']); ?>>12px</option>
                                         <option value="18px" <?php selected('18px', $widget_data['style']['action']['font-size']); ?>>18px</option>
                                         <option value="24px" <?php selected('24px', $widget_data['style']['action']['font-size']); ?>>24px</option>
