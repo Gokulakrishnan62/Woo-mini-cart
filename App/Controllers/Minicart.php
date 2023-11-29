@@ -35,4 +35,15 @@ class Minicart
             'data' => Template::prepareInlineStyles(get_option('mcw_settings')),
         ]);
     }
+
+    /***
+     * To return template in woocommerce fragments
+     * @param $fragments
+     * @return mixed
+     */
+    public static function fragments($fragments)
+    {
+        $fragments['mini-cart-mcw'] = self::getTemplate();
+        return $fragments;
+    }
 }

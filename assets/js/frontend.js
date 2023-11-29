@@ -294,4 +294,8 @@ jQuery(function ($) {
         const sidebar = $('#mcw-cart-sidebar');
         sidebar.css('left', sidebar.css('left') === '0px' ? '-1000px' : '0px');
     });
+
+    $(document.body).on('wc_fragments_refreshed', function(event, fragments, cart_hash, button) {
+        mcw_actions.refresh_mini_cart($("#mcw-cart-sidebar"));
+    });
 });

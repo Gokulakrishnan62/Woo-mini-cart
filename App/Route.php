@@ -41,6 +41,7 @@ class Route
     {
         add_action('wp_enqueue_scripts', [Assets::class, 'loadFrontendAssets']);
         add_action('wp_footer',[Minicart::class, 'loadWidgetAndSidebar']);
+        add_filter('woocommerce_add_to_cart_fragments', [Minicart::class, 'fragments']);
     }
 
     /***
