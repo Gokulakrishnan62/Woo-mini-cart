@@ -1,29 +1,75 @@
+/* default properties */
+#mcw-cart-sidebar h1, h2, h3, h4, h5, h6 {
+    margin: 0 !important;
+    font-weight: 300 !important;
+    padding: 0 !important;
+}
+
+#mcw-cart-sidebar button {
+    text-transform: none!important;
+    padding: 14px;
+    margin: 0!important;
+    line-height: 1 !important;
+    min-height: auto !important;
+}
+
+#mcw-cart-sidebar input {
+    background-color: #ffffff !important;
+    color: #1a1d20 !important;
+    height: 46px;
+    text-transform: none!important;
+    margin: 0!important;
+    line-height: 1 !important;
+    min-height: auto !important;
+}
+
+/*color for price*/
+#mcw-cart-sidebar .amount {
+    color: currentColor!important;
+}
+
+/* widget */
 .widget-container {
     position: fixed;
     bottom: 30px;
     right: 20px;
     z-index: 1000000;
     line-height: 1;
-    border-radius: 5%;
+    border-radius: 50%;
+}
+
+.widget-quantity {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: currentColor;
+    background-color: inherit;
+    font-size: 14px !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 10px;
+    font-weight: 300;
 }
 
 .mcw-widget {
-    height: 80px;
-    width: 80px;
+    height: 90px !important;
+    width: 90px !important;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 10px;
-    border-radius: 50%;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     transition: background-color 0.3s ease;
+    border-radius: 50%;
 }
 
 .widget-container:hover {
     animation: widget-container 0.6s;
 }
 
+/* sidebar styles */
 #mcw-cart-sidebar {
     position: fixed;
     top: 0;
@@ -35,17 +81,12 @@
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
     transition: right 0.3s ease;
     z-index: 1000000;
-    /*overflow-y: auto;*/
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 
 }
-#mcw-cart-sidebar h1, h2, h3, h4, h5, h6 {
-    margin: 0 !important;
-    padding: 0 !important;
-}
-/* mcw product styles */
+
 .mcw-header {
     height: 8vh;
     position: relative;
@@ -54,15 +95,6 @@
     align-items: center;
     line-height: 1;
     gap: 8px;
-}
-
-.mcw-product {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 24px;
-    padding: 20px;
-    line-height: 1;
 }
 
 .mcw-products {
@@ -74,20 +106,13 @@
     padding: 10px;
 }
 
-/* custom scrollbar */
-.mcw-products::-webkit-scrollbar {
-    width: 4px;
-}
-.mcw-products::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 5px grey;
-    border-radius: 10px;
-}
-.mcw-products::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
-    border-radius: 10px;
-}
-.mcw-products::-webkit-scrollbar-thumb:hover {
-    background: #e5e7eb;
+.mcw-product {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 24px;
+    padding: 20px;
+    line-height: 1;
 }
 
 .mcw-product-image {
@@ -114,7 +139,7 @@
     width: 30px !important;
     text-align: center;
     border: 1px solid;
-    padding: 3px;
+    padding: 3px !important;
     cursor: pointer;
     transition: background-color 0.3s ease;
     color: currentColor !important;
@@ -126,7 +151,7 @@
     width: 30px !important;
     text-align: center;
     border: 1px solid !important;
-    padding: 3px;
+    padding: 3px !important;
     font-size: 12px;
     color: currentColor;
     background-color: #34495e;
@@ -136,7 +161,17 @@
     padding: 5px;
     /*height: 60px;*/
     display: flex;
+    flex-direction: column;
     justify-content: center;
+}
+
+#mcw-coupon-list {
+    width: 100%;
+    padding: 0 8px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 4px;
 }
 
 .mcw-footer {
@@ -155,8 +190,20 @@
     width: 100%;
 }
 
-.mcw-action:hover {
-    filter: drop-shadow(2px 4px 6px);
+/* custom scrollbar */
+.mcw-products::-webkit-scrollbar {
+    width: 8px;
+}
+.mcw-products::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+}
+.mcw-products::-webkit-scrollbar-thumb {
+    background: #374151;
+    border-radius: 10px;
+}
+.mcw-products::-webkit-scrollbar-thumb:hover {
+    background: #030712;
 }
 
 @keyframes widget-container {
@@ -166,8 +213,7 @@
     100% {transform: rotate(0);}
 }
 
-
-
+/* mobile responsive */
 @media screen and (max-width: 480px) {
     #mcw-cart-sidebar {
         width: 100%;
@@ -175,9 +221,5 @@
 
     .mcw-product {
         gap: 12px;
-    }
-
-    .mcw-footer {
-        padding-bottom: 75px !important;
     }
 }

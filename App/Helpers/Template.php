@@ -34,14 +34,45 @@ class Template
      */
     public static function getDefaultData() {
         return (array) apply_filters('mcw_default_template_data', [
-            'show_icon_in_header' => '1',
-            'header_title' => 'Mini cart Woo',
-            'show_remove_item_option' => '1',
-            'product_price_format' => 'actual_price',
-            'checkout_cta_text' => 'Checkout button',
-            'continue_cta_text' => 'Continue shopping',
-            'show_cart_button_in_footer' => '',
-            'cart_cta_text' => 'View cart',
+            'data' => [
+                'header' => [
+                    'icon' => [
+                        'show' => 1,
+                    ],
+                    'title' => 'Mini cart Woo',
+                ],
+                'items' => [
+                    'item' => [
+                        'show_remove_option' => 1,
+                        'price_format' => 'actual_price',
+                    ],
+                ],
+                'coupons' => [
+                    'coupon' => [
+                        'sub_title' => 'coupon :',
+                    ]
+                ],
+                'actions' => [
+                    'checkout' => [
+                        'enabled' => 1,
+                        'cta' => 'Checkout button',
+                    ],
+                    'cart' => [
+                        'enabled' => 1,
+                        'cta' => 'View Cart',
+                    ],
+                    'shop' => [
+                        'enabled' => 1,
+                        'cta' => 'Continue Shopping',
+                    ],
+                ],
+                'footer' => [
+                    'show' => [
+                        'discount' => '',
+                        'total' => '',
+                    ],
+                ],
+            ],
             'style' => [
                 'widget' => [
                     'background-color' => '#005c86',
@@ -53,12 +84,12 @@ class Template
                     'color' => '#effbff',
                 ],
                 'body' => [
-                    'font-size' => '',
+                    'font-size' => '16px',
                     'background-color' => '#005c86',
                     'color' => '#effbff',
                 ],
                 'coupon' => [
-                    'font-size' => '',
+                    'font-size' => '16px',
                     'background-color' => '#005c86',
                     'color' => '#effbff',
                 ],

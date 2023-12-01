@@ -8,6 +8,7 @@ jQuery(function ($) {
             this.event_listeners();
         },
 
+        // to save template settings
         save_option: function () {
             $.ajax({
                 url: mcw_ajx_url,
@@ -46,13 +47,13 @@ jQuery(function ($) {
                 $(this).closest('.mcw-color-inputs').find('.mcw-color-picker').val($(this).val());
             }).trigger('input');
 
-            // to show cart button.
-            $('#mcw-admin-page .mcw-show-cart-button').change(function () {
+            // to show action buttons.
+            $('#mcw-admin-page .mcw-show-action .mcw-show-button').change(function () {
                 if ($(this).is(':checked')) {
-                    $(".mcw-cart-button-cta").show()
-                    $(".mcw-show-cart-button").val(1)
+                    $(this).closest(".mcw-show-action").find(".mcw-show-button-details").show()
+                    $(this).val(1)
                 } else {
-                    $(".mcw-cart-button-cta").hide()
+                    $(this).closest(".mcw-show-action").find(".mcw-show-button-details").hide()
                 }
             });
 
@@ -67,10 +68,21 @@ jQuery(function ($) {
                             } );
                         })
                         $('#mcw-admin-page .mcw-color-inputs .mcw-color-input').trigger('input');
-                    } else {
-                        admin_data.find('[name="' + name + '"]').val(value);
-                        admin_data.find('[name="' + name + '"]:checkbox').prop("checked", value !== '' ? true : false);
-                        $('#mcw-admin-page .mcw-show-cart-button').trigger('change');
+                    } else if (name === 'data') {
+                        $.each(value, function (section_name, section_value){
+                            $.each(section_value, function (sub_name, sub_value) {
+                                if (typeof sub_value != 'string') {
+                                    $.each(sub_value, function (key, default_value) {
+                                        admin_data.find('[name="'+ name +'[' + section_name + ']['+ sub_name +']['+ key +']"]').val(default_value);
+                                        admin_data.find('[name="' + name + '[' + section_name + ']['+ sub_name +']['+ key +']"]:checkbox').prop("checked", default_value !== '' ? true : false);
+                                    });
+                                } else {
+                                    admin_data.find('[name="'+ name +'[' + section_name + ']['+ sub_name +']"]').val(sub_value);
+                                    admin_data.find('[name="' + name + '[' + section_name + ']['+ sub_name +']"]:checkbox').prop("checked", sub_value !== '' ? true : false);
+                                }
+                            } );
+                        })
+                        $('#mcw-admin-page .mcw-show-action .mcw-show-button').trigger('change');
                     }
                 });
             });
